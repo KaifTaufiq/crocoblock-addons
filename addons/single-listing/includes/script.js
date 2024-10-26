@@ -16,29 +16,27 @@ document.addEventListener("DOMContentLoaded", function () {
     AllListing.addEventListener("click", function (event) {
       let clickedItem = event.target.closest(".jet-listing-grid__item"); // Check if clicked item is a list item
 
-      if (
-        clickedItem &&
-        !clickedItem.classList.contains(settings.activeItemClass)
-      ) {
-        let allItems = AllListing.querySelectorAll(".jet-listing-grid__item");
+      if (clickedItem) {
+        if (settings.activeItemClass) {
+          let allItems = AllListing.querySelectorAll(".jet-listing-grid__item");
 
-        // Remove 'active' class from all items
-        allItems.forEach(function (item) {
-          item.classList.remove(settings.activeItemClass);
-        });
+          // Remove 'active' class from all items if activeItemClass is defined
+          allItems.forEach(function (item) {
+            item.classList.remove(settings.activeItemClass);
+          });
 
-        // Add 'active' class to the clicked item
-        clickedItem.classList.add(settings.activeItemClass);
-
+          // Add 'active' class to the clicked item
+          clickedItem.classList.add(settings.activeItemClass);
+        }
         // Get the post ID and handle the reload
         let singleID = clickedItem.getAttribute("data-post-id");
         // console.log("Single ID:", singleID);
-        if (singleID.includes('-')) {
-          let singleID_Element = clickedItem.querySelector('[singleid]');
+        if (singleID.includes("-")) {
+          let singleID_Element = clickedItem.querySelector("[singleid]");
           if (singleID_Element) {
-            singleID = singleID_Element.getAttribute('singleid');
+            singleID = singleID_Element.getAttribute("singleid");
           } else {
-            console.warn('Single ID not found in the element:', clickedItem);
+            console.warn("Single ID not found in the element:", clickedItem);
             return;
           }
         }
@@ -59,12 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById(settings.single_list_id).style.display = "none"; // Hide the single listing
         document.getElementById(settings.no_active).style.display = "block"; // Show the no active element again
 
-        // Remove 'active' class from all items
-        let activeItem = document.querySelector(
-          ".jet-listing-grid__item.active"
-        );
-        if (activeItem) {
-          activeItem.classList.remove("active");
+        // Remove 'active' class from all items if activeItemClass is defined
+        if (settings.activeItemClass) {
+          let activeItem = document.querySelector(
+            `.jet-listing-grid__item.${settings.activeItemClass}`
+          );
+          if (activeItem) {
+            activeItem.classList.remove(settings.activeItemClass);
+          }
         }
       });
     } else {
