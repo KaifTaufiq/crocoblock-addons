@@ -111,14 +111,17 @@ function prepareSingleReload(singleID, settings, singleListElement) {
     return; // Exit the function
   }
   const noActiveElement = document.getElementById(settings.no_active); // Get the no active element
-  if (!noActiveElement || !singleListElement) {
-    // Check if elements exist
-    console.warn("Required elements not found.");
-    return; // Exit the function
+  if (!singleListElement) {
+    console.warn("Single Listing not found.");
+    return;
   }
-  if (noActiveElement.style.display !== "none") {
-    // Hide noActiveElement if it's visible
-    noActiveElement.style.display = "none";
+  if (!noActiveElement) {
+    console.warn("No Active Items Element not found.");
+  } else {
+    if (noActiveElement.style.display !== "none") {
+      // Hide noActiveElement if it's visible
+      noActiveElement.style.display = "none";
+    }
   }
   // Show the singleListElement and reload grid
   singleListElement.style.display = "block";
@@ -152,7 +155,7 @@ function reloadListingGrid(listingID, singleID) {
     // console.log('Post ID (Gutenberg):', postID);
   }
   extraProps = {
-    singleID: singleID
+    singleID: singleID,
   };
 
   const options = {
