@@ -233,7 +233,7 @@ add_filter('jet-engine/rest-api-listings/request/url', function ($url, $instance
         }
         // echo '<script>console.log("custom_key: ' . $saved_endpoints[$endpoint_id]['custom_key'] . '")</script>';
         // Use the custom key instead of hardcoded 'id'
-        $singleID = isset($_GET[$custom_key]) ? intval($_GET[$custom_key]) : '';
+        $singleID = isset($_GET[$custom_key]) ? $_GET[$custom_key] : '';
         // echo '<script>console.log("Single ID: ' . $singleID . '")</script>';
 
         if (!empty($singleID) && str_contains($url, '{replace}')) {
