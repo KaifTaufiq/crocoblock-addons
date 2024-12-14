@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Crocoblock Addons
  * Description: A plugin to Power up your Crocoblock plugins with additional features.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Kaif Shaikh (White Hat Devs)
  * Author URI: https://whitehatdevs.com
  */
