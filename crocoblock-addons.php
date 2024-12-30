@@ -100,6 +100,10 @@ if (! class_exists('CrocoBlockAddons')) {
 		public function __construct()
 		{
 			$this->plugin_name = plugin_basename(__FILE__);
+
+			// Load the Required Files
+			require $this->plugin_path('dashboard/dashboard.php');
+			
 			add_action('jet-engine/init', array($this, 'init'));
 		}
 
@@ -110,7 +114,7 @@ if (! class_exists('CrocoBlockAddons')) {
 		 */
 		public function init()
 		{
-			// To Be Implemented
+			$this->dashboard = new CrocoblockAddonsDashboard();
 		}
 
 		public function plugin_path($path = null)
