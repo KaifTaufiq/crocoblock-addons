@@ -19,6 +19,9 @@ if (! class_exists('CrocoblockAddonManager')) {
         private $addons        = array();
         private $active_addons = array();
 
+        /**
+		 * Constructor for the class
+		 */
         public function __construct()
         {
             $this->preload_addons();
@@ -26,11 +29,21 @@ if (! class_exists('CrocoblockAddonManager')) {
             add_action('wp_ajax_crocoblock_addons_save_addons', array($this, 'save_addons'));
         }
 
+        /**
+		 * Save active Addons
+		 *
+		 * @return [type] [description]
+		 */
         public function save_addons()
         {
             TODO:
         }
 
+        /**
+		 * Preload Addons
+		 *
+		 * @return void
+		 */
         public function preload_addons()
         {
             $all_addons = apply_filters('crocoblock_addons/available-addons', array());
@@ -45,6 +58,11 @@ if (! class_exists('CrocoblockAddonManager')) {
             }
         }
 
+        /**
+		 * Get all addons list in format required for JS
+		 *
+		 * @return [type] [description]
+		 */
         public function get_all_addons_for_js($extra_data = false, $type = false)
         {
 
@@ -76,6 +94,13 @@ if (! class_exists('CrocoblockAddonManager')) {
             return $result;
         }
 
+        /**
+         * 
+         * Get addon links
+         * 
+         * @param  [type] $addon [description]
+         * @return [type]        [description]
+         */
         public function get_addon_links($addon)
         {
             FIXME: // Check if this is needed
@@ -102,6 +127,11 @@ if (! class_exists('CrocoblockAddonManager')) {
             return $result;
         }
 
+        /**
+		 * Initialize active Addons
+		 *
+		 * @return void
+		 */
         public function init_active_addons()
         {
             $addons = $this->get_active_addons();
@@ -129,12 +159,23 @@ if (! class_exists('CrocoblockAddonManager')) {
             }
         }
 
+        /**
+		 * Get active Addons list
+		 *
+		 * @return [type] [description]
+		 */
         public function get_active_addons()
         {
             $active_addons = get_option($this->option_name, array());
             return array_values($active_addons);
         }
 
+        /**
+		 * Initialize addon by slug
+		 *
+		 * @param  string $addon Addon slug to init.
+		 * @return void
+		 */
         public function init_addon($addon)
         {
             $addon_instance = $this->get_addon($addon);
@@ -144,9 +185,35 @@ if (! class_exists('CrocoblockAddonManager')) {
             }
         }
 
+        /**
+		 * Get addon instance by addon ID
+		 *
+		 * @param  [type] $addon_id [description]
+		 * @return [type]           [description]
+		 */
         public function get_addon($addon_id)
         {
             return isset($this->addons[$addon_id]) ? $this->addons[$addon_id] : false;
         }
+
+        /**
+		 * Returns path to file inside addons dir
+		 *
+		 * @param  [type] $path [description]
+		 * @return [type]       [description]
+		 */
+		public function addons_path( $path ) {
+			return CrocoBlockAddons()->plugin_path( 'includes/modules/' . $path );
+		}
+
+		/**
+		 * Returns url to file inside modules dir
+		 *
+		 * @param  [type] $path [description]
+		 * @return [type]       [description]
+		 */
+		public function addons_url( $path ) {
+			return CrocoBlockAddons()->plugin_url( 'includes/modules/' . $path );
+		}
     }
 }
