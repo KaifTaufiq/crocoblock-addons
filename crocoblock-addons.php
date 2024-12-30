@@ -106,6 +106,31 @@ if (! class_exists('CrocoBlockAddons')) {
 			require $this->plugin_path('addons/addons-manager.php');
 			
 			add_action('jet-engine/init', array($this, 'init'));
+
+			// Plugin activation and deactivation hook.
+			register_activation_hook(__FILE__, [$this, 'activation']);
+			register_deactivation_hook(__FILE__, [$this, 'deactivation']);
+		}
+
+		/**
+		 * Plugin activation hook.
+		 *
+		 * @return void
+		 */
+		public function activation()
+		{
+			// Migrate old Data with Admin Notice to inform user
+			TODO: // Add Migration Code
+		}
+
+		/**
+		 * Plugin deactivation hook.
+		 *
+		 * @return void
+		 */
+		public function deactivation()
+		{
+			// Not Decided Yet what to do on deactivation
 		}
 
 		/**
