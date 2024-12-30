@@ -41,19 +41,18 @@ if (!class_exists('CrocoBlockAddonsDashboard')) {
                 CrocoBlockAddons()->get_version(),
                 true
             );
-            $addons = []; TODO: // Get addons list
 
             wp_localize_script(
                 'crocoblock-addons-settings',
                 'CrocoClockAddonsSettings',
                 [
+                    'addons' => CrocoBlockAddons()->addons->get_all_addons_for_js(true),
+                    'active_addons' => [],
                     '_nonce' => wp_create_nonce($this->nonce_action),
                     'messages'          => array(
                     'saved'            => __('Saved!', 'crocoblock-addons'),
                     'saved_and_reload' => __('Saved! One of activated/deactivated addon requires page reloading. Page will be reloaded automatically in few seconds.', 'crocoblock-addons'),
                     ),
-                    'addons' => $addons,
-                    'active_addons' => [],
                 ]
             );
         }

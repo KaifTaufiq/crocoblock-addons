@@ -103,6 +103,7 @@ if (! class_exists('CrocoBlockAddons')) {
 
 			// Load the Required Files
 			require $this->plugin_path('dashboard/dashboard.php');
+			require $this->plugin_path('addons/addons-manager.php');
 			
 			add_action('jet-engine/init', array($this, 'init'));
 		}
@@ -115,6 +116,7 @@ if (! class_exists('CrocoBlockAddons')) {
 		public function init()
 		{
 			$this->dashboard = new CrocoblockAddonsDashboard();
+			$this->addons = new CrocoblockAddonManager();
 		}
 
 		public function plugin_path($path = null)
