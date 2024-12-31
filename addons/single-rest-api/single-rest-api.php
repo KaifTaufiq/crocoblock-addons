@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Single Rest API Addon
  */
-namespace CrocoblockAddons\Addons;
+
 use CrocoblockAddons\Base\Addon;
 
 // If this file is called directly, abort.
@@ -15,8 +16,9 @@ if (! class_exists('SingleRestApi')) {
     /**
      * Define SingleRestApi class
      */
-    class SingleRestApi extends Addon
+    class Addon_Single_Rest_API extends Addon
     {
+
         public $instance = null;
 
         public function addon_id()
@@ -29,15 +31,38 @@ if (! class_exists('SingleRestApi')) {
         }
         public function addon_init()
         {
-            require crocoblock_addon()->addons->addons_path('single-rest-api/inc/adddon.php');
-            $this->instance = Addon_Single_Rest_Api_Addon::instance();
+            add_action('crocoblock-addons/init', array($this,'create_instance'));
+        }
+
+        public function create_instance($crocoblock_addon){
+            require $crocoblock_addon->addons->addons_path( 'single-rest-api/inc/addon.php' );
+            $this->instance = \CrocoblockAddons\Addons\SingleRestApi\Addon::instance();
+        }
+
+        public function get_addon_details()
+        {
+            return '<p>Single Rest API Details</p>';
+        }
+
+        public function get_addon_links()
+        {
+            return array(
+                array(
+                    'label' => 'How to Display Custom Content Type Items Using REST API',
+                    'url'   => 'https://crocoblock.com/knowledge-base/articles/jetengine-how-to-display-custom-content-type-items-using-rest-api/',
+                ),
+                array(
+                    'label' => 'How to Add and Edit CCT Items Remotely Using REST API',
+                    'url'   => 'https://crocoblock.com/knowledge-base/articles/jetengine-how-to-add-and-edit-cct-items-remotely-using-rest-api/',
+                ),
+            );
         }
     }
 }
 add_action('crocoblock_addons_sidebar_items', 'sidebar');
 function sidebar()
 {
-    ?>
+?>
     <div class="nav-item" data-target="single-rest-api">Single Rest API</div>
     <?php
 }
@@ -81,11 +106,11 @@ function content_section()
         return;
     }
     if (!class_exists('Jet_Engine')) {
-        ?>
+    ?>
         <div class="content" id="single-rest-api">
             <p>JetEngine plugin is required to use this feature.</p>
         </div>
-        <?php
+    <?php
         return;
     }
     global $wpdb;
@@ -101,7 +126,7 @@ function content_section()
 
     if (!empty($endpoints)) {
         $nonce = wp_create_nonce('single_rest_api_nonce');
-        ?>
+    ?>
         <div id="single-rest-api" class="content">
             <h1>Single Rest API Endpoints</h1>
             <p class="paragraph">Enable/disable Single Rest API endpoints and set custom URL parameters</p>
@@ -124,7 +149,7 @@ function content_section()
                         $status = isset($saved_endpoints[$endpoint->id]['status']) && $saved_endpoints[$endpoint->id]['status'] === 'on' ? 'on' : 'off';
                         $custom_key = isset($saved_endpoints[$endpoint->id]['custom_key']) ? esc_attr($saved_endpoints[$endpoint->id]['custom_key']) : '';
 
-                        ?>
+                    ?>
                         <div class="feature-card">
                             <div class="name_switch">
                                 <label class="switch">
@@ -153,9 +178,9 @@ function content_section()
             </form>
         </div>
         <script>
-            jQuery(document).ready(function ($) {
+            jQuery(document).ready(function($) {
                 function toggleCustomKeyFields() {
-                    $('input[name^="endpoints["]').each(function () {
+                    $('input[name^="endpoints["]').each(function() {
                         const endpointId = $(this).attr('name').match(/\[(\d+)\]/)[1]; // Extract the ID from the name attribute
                         const customKeyField = $('#custom_key_' + endpointId).closest('.custom-key');
 
@@ -171,23 +196,23 @@ function content_section()
                 toggleCustomKeyFields();
 
                 // Toggle visibility on checkbox change
-                $('input[name^="endpoints["]').on('change', function () {
+                $('input[name^="endpoints["]').on('change', function() {
                     toggleCustomKeyFields();
                 });
-                $('#single_rest_api_submit').on('click', function (e) {
+                $('#single_rest_api_submit').on('click', function(e) {
                     e.preventDefault();
 
                     let endpoints = {};
                     let customKeys = {};
 
                     // Collect checkbox states for endpoints
-                    $('input[name^="endpoints["]').each(function () {
+                    $('input[name^="endpoints["]').each(function() {
                         const endpointId = $(this).attr('name').match(/\[(\d+)\]/)[1]; // Extract the ID from the name attribute
                         endpoints[endpointId] = $(this).is(':checked') ? 'on' : 'off';
                     });
 
                     // Collect custom key values for each endpoint
-                    $('input[name^="custom_keys["]').each(function () {
+                    $('input[name^="custom_keys["]').each(function() {
                         const endpointId = $(this).attr('name').match(/\[(\d+)\]/)[1]; // Extract the ID from the name attribute
                         customKeys[endpointId] = $(this).val();
                     });
@@ -205,14 +230,14 @@ function content_section()
                             endpoints: endpoints,
                             custom_keys: customKeys,
                         },
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 location.reload();
                             } else {
                                 alert('Failed to update settings: ' + response.data);
                             }
                         },
-                        error: function () {
+                        error: function() {
                             alert('AJAX request failed.');
                         }
                     });
@@ -229,13 +254,13 @@ function content_section()
                 background-color: #f5f5f5;
             }
         </style>
-        <?php
+    <?php
     } else {
-        ?>
+    ?>
         <div class="content" id="single-rest-api">
             <p>No Endpoint Found.</p>
         </div>
-        <?php
+<?php
     }
 }
 
@@ -278,6 +303,3 @@ add_filter('jet-engine/rest-api-listings/request/url', function ($url, $instance
 
     return $url;
 }, 10, 2);
-
-
-

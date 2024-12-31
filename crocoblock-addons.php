@@ -10,8 +10,6 @@
  * Text Domain: crocoblock-addons
  */
 
-namespace CrocoblockAddons;
-
 use CrocoblockAddons\Dashboard;
 use CrocoblockAddons\AddonManager;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
@@ -22,8 +20,8 @@ if (! defined('WPINC')) {
 }
 
 // the main Crocoblock Addons class.
-if (! class_exists('Plugin')) {
-	class Plugin
+if (! class_exists('CrocoblockAddons')) {
+	class CrocoblockAddons
 	{
 		/**
 		 * A reference to an instance of this class.
@@ -144,6 +142,7 @@ if (! class_exists('Plugin')) {
 		{
 			$this->dashboard = new Dashboard();
 			$this->addons = new AddonManager();
+			do_action('crocoblock-addons/init', $this);
 		}
 
 		public function plugin_path($path = null)
@@ -178,17 +177,17 @@ if (! class_exists('Plugin')) {
 	}
 }
 
-if (! function_exists('CrocoBlockAddons')) {
+if (! function_exists('CrocoblockAddons')) {
 
 	/**
 	 * Returns instance of the plugin class.
 	 *
 	 * @since  1.1
-	 * @return \CrocoblockAddons\Plugin
+	 * @return CrocoblockAddons
 	 */
 	function crocoblock_addon()
 	{
-		return \CrocoblockAddons\Plugin::get_instance();
+		return CrocoblockAddons::get_instance();
 	}
 }
 

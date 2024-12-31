@@ -9,16 +9,14 @@ class Settings
     {
         add_action('jet-engine/dashboard/tabs', [$this, 'settings_tabs']);
         add_action('jet-engine/dashboard/assets', [$this, 'settings_js']);
-        //add_action('wp_ajax_single_rest_api', [$this, 'save_single_api']);
+        // add_action('wp_ajax_single_rest_api', [$this, 'save_single_api']);
     }
 
     public function settings_js(){
         wp_enqueue_script(
             'crocoblock-addons-single-rest-api',
-            Addon::instance()->module_url('assets/js/settings.js'),
+            Addon::instance()->addon_url('assets/js/settings.js'),
             ['cx-vue-ui'],
-            crocoblock_addon()->get_version(),
-            true
         );
 
         $listings = $this->get_listings();
@@ -30,9 +28,7 @@ class Settings
                 'listings'=> $listings,
                 '_nonce' => wp_create_nonce($this->nonce_key),
             ],
-            ['cx-vue-ui'],
-            crocoblock_addon()->get_version(),
-            true
+            ['cx-vue-ui']
         );
     }
 
