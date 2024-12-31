@@ -10,30 +10,20 @@
  * Text Domain: crocoblock-addons
  */
 
+namespace CrocoblockAddons;
+
+use CrocoblockAddons\Dashboard;
+use CrocoblockAddons\AddonManager;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 // If this file is called directly, abort.
 if (! defined('WPINC')) {
 	die();
 }
 
-// PLugin Update Checker Configuration
-require 'plugin-update-checker/plugin-update-checker.php';
-
-use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-
-$myUpdateChecker = PucFactory::buildUpdateChecker(
-	'https://github.com/KaifTaufiq/crocoblock-addons/',
-	__FILE__,
-	'croocblock-addons'
-);
-
-//Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
-
-
 // the main Crocoblock Addons class.
-if (! class_exists('CrocoBlockAddons')) {
-	class CrocoBlockAddons
+if (! class_exists('Plugin')) {
+	class Plugin
 	{
 		/**
 		 * A reference to an instance of this class.
@@ -79,13 +69,13 @@ if (! class_exists('CrocoBlockAddons')) {
 		/**
 		 * Dashboard instance
 		 *
-		 * @var CrocoblockAddonsDashboard
+		 * @var \CrocoblockAddons\Dashboard
 		 */
 		public $dashboard;
 
 		/**
 		 * Addon Manager instance
-		 * @var CrocoblockAddonManager
+		 * @var \CrocoblockAddons\AddonManager
 		 */
 		public $addons;
 
@@ -101,10 +91,22 @@ if (! class_exists('CrocoBlockAddons')) {
 		{
 			$this->plugin_name = plugin_basename(__FILE__);
 
+			// PLugin Update Checker Configuration
+			require 'plugin-update-checker/plugin-update-checker.php';
+
+			$myUpdateChecker = PucFactory::buildUpdateChecker(
+				'https://github.com/KaifTaufiq/crocoblock-addons/',
+				__FILE__,
+				'croocblock-addons'
+			);
+
+			//Set the branch that contains the stable release.
+			$myUpdateChecker->setBranch('main');
+			
 			// Load the Required Files
 			require $this->plugin_path('dashboard/dashboard.php');
 			require $this->plugin_path('addons/addons-manager.php');
-			
+
 			add_action('jet-engine/init', array($this, 'init'));
 
 			// Plugin activation and deactivation hook.
@@ -140,8 +142,8 @@ if (! class_exists('CrocoBlockAddons')) {
 		 */
 		public function init()
 		{
-			$this->dashboard = new CrocoblockAddonsDashboard();
-			$this->addons = new CrocoblockAddonManager();
+			$this->dashboard = new Dashboard();
+			$this->addons = new AddonManager();
 		}
 
 		public function plugin_path($path = null)
@@ -165,9 +167,10 @@ if (! class_exists('CrocoBlockAddons')) {
 			return $this->version;
 		}
 
-		public static function get_instance(){
+		public static function get_instance()
+		{
 			// If the single instance hasn't been set, set it now.
-			if ( null == self::$instance ) {
+			if (null == self::$instance) {
 				self::$instance = new self;
 			}
 			return self::$instance;
@@ -175,17 +178,18 @@ if (! class_exists('CrocoBlockAddons')) {
 	}
 }
 
-if ( ! function_exists( 'CrocoBlockAddons' ) ) {
+if (! function_exists('CrocoBlockAddons')) {
 
 	/**
 	 * Returns instance of the plugin class.
 	 *
 	 * @since  1.1
-	 * @return CrocoBlockAddons
+	 * @return \CrocoblockAddons\Plugin
 	 */
-	function CrocoBlockAddons() {
-		return CrocoBlockAddons::get_instance();
+	function crocoblock_addon()
+	{
+		return \CrocoblockAddons\Plugin::get_instance();
 	}
 }
 
-CrocoBlockAddons();
+crocoblock_addon();

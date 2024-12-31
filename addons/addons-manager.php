@@ -1,5 +1,6 @@
 <?php
 
+namespace CrocoblockAddons;
 /**
  * Addons manager
  */
@@ -8,12 +9,12 @@ if (! defined('WPINC')) {
     die;
 }
 
-if (! class_exists('CrocoblockAddonManager')) {
+if (! class_exists('AddonManager')) {
 
     /**
-     * Define CrocoblockAddonManager class
+     * Define AddonManager class
      */
-    class CrocoblockAddonManager
+    class AddonManager
     {
         public  $option_name    = 'crocoblock_addons_settings';
         private $addons        = array();
@@ -49,7 +50,7 @@ if (! class_exists('CrocoblockAddonManager')) {
             $all_addons = apply_filters('crocoblock_addons/available-addons', array());
 
             // Load the Base Classes
-            require CrocoBlockAddons()->plugin_path('base/base-addon.php');
+            require crocoblock_addon()->plugin_path('base/base-addon.php');
 
             foreach ($all_addons as $addon => $file) {
                 require $file;
@@ -203,7 +204,7 @@ if (! class_exists('CrocoblockAddonManager')) {
 		 * @return [type]       [description]
 		 */
 		public function addons_path( $path ) {
-			return CrocoBlockAddons()->plugin_path( 'includes/modules/' . $path );
+			return crocoblock_addon()->plugin_path( 'addons/' . $path );
 		}
 
 		/**
@@ -213,7 +214,7 @@ if (! class_exists('CrocoblockAddonManager')) {
 		 * @return [type]       [description]
 		 */
 		public function addons_url( $path ) {
-			return CrocoBlockAddons()->plugin_url( 'includes/modules/' . $path );
+			return crocoblock_addon()->plugin_url( 'addons/' . $path );
 		}
     }
 }

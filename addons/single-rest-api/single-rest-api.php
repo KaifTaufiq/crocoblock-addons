@@ -1,6 +1,38 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit;
+/**
+ * Single Rest API Addon
+ */
+namespace CrocoblockAddons\Addons;
+use CrocoblockAddons\Base\Addon;
+
+// If this file is called directly, abort.
+if (! defined('WPINC')) {
+    die;
+}
+
+if (! class_exists('SingleRestApi')) {
+
+    /**
+     * Define SingleRestApi class
+     */
+    class SingleRestApi extends Addon
+    {
+        public $instance = null;
+
+        public function addon_id()
+        {
+            return 'single-rest-api';
+        }
+        public function addon_name()
+        {
+            return __('Single Rest API', 'crocoblock-addons');
+        }
+        public function addon_init()
+        {
+            require crocoblock_addon()->addons->addons_path('single-rest-api/inc/adddon.php');
+            $this->instance = Addon_Single_Rest_Api_Addon::instance();
+        }
+    }
 }
 add_action('crocoblock_addons_sidebar_items', 'sidebar');
 function sidebar()

@@ -1,11 +1,11 @@
 <?php
-
+namespace CrocoblockAddons;
 if (!defined('WPINC')) {
     die;
 }
 
-if (!class_exists('CrocoBlockAddonsDashboard')) {
-    class CrocoblockAddonsDashboard
+if (!class_exists('Dashboard')) {
+    class Dashboard
     {
         public $nonce_action = 'crocoblock-addons-settings';
 
@@ -36,9 +36,9 @@ if (!class_exists('CrocoBlockAddonsDashboard')) {
         {
             wp_enqueue_script(
                 'crocoblock-addons-settings',
-                CrocoBlockAddons()->plugin_url( 'dashboard/assets/js/dashboard.js' ),
+                crocoblock_addon()->plugin_url( 'dashboard/assets/js/dashboard.js' ),
                 ['cx-vue-ui'],
-                CrocoBlockAddons()->get_version(),
+                crocoblock_addon()->get_version(),
                 true
             );
 
@@ -46,7 +46,7 @@ if (!class_exists('CrocoBlockAddonsDashboard')) {
                 'crocoblock-addons-settings',
                 'CrocoClockAddonsSettings',
                 [
-                    'addons' => CrocoBlockAddons()->addons->get_all_addons_for_js(true),
+                    'addons' => crocoblock_addon()->addons->get_all_addons_for_js(true),
                     'active_addons' => [],
                     '_nonce' => wp_create_nonce($this->nonce_action),
                     'messages'          => array(

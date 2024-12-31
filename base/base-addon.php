@@ -1,5 +1,5 @@
 <?php
-
+namespace CrocoblockAddons\Base;
 /**
  * Base class for Addon
  */
@@ -9,12 +9,12 @@ if (! defined('WPINC')) {
     die;
 }
 
-if (! class_exists('CrocoblockBaseAddon')) {
+if (! class_exists('Addon')) {
 
     /**
-     * Define CrocoblockBaseAddon class
+     * Define Addon class
      */
-    abstract class CrocoblockBaseAddon
+    abstract class Addon
     {
         /**
          * Addons ID
