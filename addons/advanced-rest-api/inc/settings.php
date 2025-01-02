@@ -1,18 +1,18 @@
 <?php
-namespace CrocoblockAddons\Addons\SingleRestApi;
+namespace CrocoblockAddons\Addons\AdvancedRestApi;
 
 class Settings
 {
-    public $nonce_key = 'single_rest_api_nonce';
+    public $nonce_key = 'advanced_rest_api_nonce';
 
     public function __construct()
     {
         add_action('jet-engine/dashboard/tabs', [$this, 'settings_tabs'], 999);
         add_action('jet-engine/dashboard/assets', [$this, 'settings_js']);
-        add_action('wp_ajax_crcoblock_save_single_rest_api', [$this, 'save_single_api']);
+        add_action('wp_ajax_crcoblock_save_advanced_rest_api', [$this, 'save_advanced_api']);
     }
 
-    public function save_single_api() {
+    public function save_advanced_api() {
         if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Access denied', 'jet-engine' ) ) );
 		}
@@ -48,7 +48,7 @@ class Settings
 
     public function settings_js(){
         wp_enqueue_script(
-            'crocoblock-addons-single-rest-api',
+            'crocoblock-addons-advanced-rest-api',
             Addon::instance()->addon_url('assets/settings.js'),
             ['cx-vue-ui'],
             crocoblock_addon()->get_version(),
@@ -59,8 +59,8 @@ class Settings
         do_action('qm/info',$listings);
 
         wp_localize_script(
-            'crocoblock-addons-single-rest-api',
-            'CrocoBlockSingleRestApiSettings',
+            'crocoblock-addons-advanced-rest-api',
+            'CrocoBlockAdvancedRestApiSettings',
             [
                 'listings'=> $listings,
                 '_nonce' => wp_create_nonce($this->nonce_key),
@@ -86,7 +86,7 @@ class Settings
     }
 
     public function print_templates() {
-		require_once crocoblock_addon()->addons->addons_path('single-rest-api/inc/assets/template.php');
+		require_once crocoblock_addon()->addons->addons_path('advanced-rest-api/inc/assets/template.php');
     }
     public function get_listings($id = null) {
         global $wpdb;
@@ -141,11 +141,11 @@ class Settings
     {
 ?>
         <cx-vui-tabs-panel
-            name="single_rest_api"
-            label="<?php _e('Single REST API', 'crocoblock-addons'); ?>"
+            name="advanced_rest_api"
+            label="<?php _e('Advanced REST API', 'crocoblock-addons'); ?>"
             key="data_stores">
             <keep-alive>
-                <crocoblock-addons-single-rest-api></crocoblock-addons-single-rest-api>
+                <crocoblock-addons-advanced-rest-api></crocoblock-addons-advanced-rest-api>
             </keep-alive>
         </cx-vui-tabs-panel>
 <?php

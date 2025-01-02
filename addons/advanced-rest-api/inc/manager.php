@@ -1,10 +1,10 @@
 <?php 
 
-namespace CrocoblockAddons\Addons\SingleRestApi;
+namespace CrocoblockAddons\Addons\AdvancedRestApi;
 
 class Manager
 {
-    public $nonce_key = 'single_rest_api_nonce';
+    public $nonce_key = 'advanced_rest_api_nonce';
 
     public $settings;
 
@@ -49,7 +49,7 @@ class Manager
                     continue;
                 } elseif ($param['from'] == 'shortcode') {
                     $shortcode = isset($param['shortcode']) ? $param['shortcode'] : false;
-                    $stripped = stripslashes($param['shortcode']);
+                    $stripped = stripslashes($shortcode);
                     if($stripped) {
                         $value = do_shortcode($stripped);
                         $debug = isset($param['debugShortcode']) ? $param['debugShortcode'] : false;
@@ -80,4 +80,3 @@ class Manager
         return $url;
     }
 }
-

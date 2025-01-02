@@ -58,7 +58,7 @@ if (! class_exists('AddonManager')) {
             $activated = array_diff($new, $current);
             $deactivated = array_diff($current, $new);
             $reload_addons = [
-                'single-rest-api',
+                'advanced-rest-api',
             ];
 
             foreach ($reload_addons as $addon) {
@@ -81,7 +81,7 @@ if (! class_exists('AddonManager')) {
             $path  = crocoblock_addon()->plugin_path('addons/');
 
             $all_addons = apply_filters('crocoblock_addons/available-addons', array(
-                'Addon_Single_Rest_API' => $path . 'single-rest-api/single-rest-api.php',
+                'Addon_Advanced_Rest_API' => $path . 'advanced-rest-api/advanced-rest-api.php',
             ));
 
             // Load the Base Classes

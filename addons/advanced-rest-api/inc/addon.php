@@ -1,9 +1,9 @@
 <?php
 
-namespace CrocoblockAddons\Addons\SingleRestApi;
+namespace CrocoblockAddons\Addons\AdvancedRestApi;
 
-use CrocoblockAddons\Addons\SingleRestApi\Settings;
-use CrocoblockAddons\Addons\SingleRestApi\Manager;
+use CrocoblockAddons\Addons\AdvancedRestApi\Settings;
+use CrocoblockAddons\Addons\AdvancedRestApi\Manager;
 
 // If this file is called directly, abort.
 if (! defined('WPINC')) {
@@ -14,7 +14,7 @@ class Addon
 {
     private static $instance = null;
 
-    public $slug = 'single-rest-api';
+    public $slug = 'advanced-rest-api';
 
     public $elementor_integration = null;
     public $blocks_integration = null;

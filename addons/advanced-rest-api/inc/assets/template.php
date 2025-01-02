@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Single Rest API dashboard template
+ * Advanced Rest API dashboard template
  */
 ?>
-<script type="text/x-template" id="crocoblock-addons-single-rest-api">
+<script type="text/x-template" id="crocoblock-addons-advanced-rest-api">
     <div>
         <div class="cx-vui-component">
             <div class="cx-vui-component-meta">
                 <a href="https://whitehatdevs.com/community/" target="_blank" class="jet-engine-dash-help-link">
-                    <?php require crocoblock_addon()->addons->addons_path('single-rest-api/inc/assets/icon/meta.svg') ?>
+                    <?php require crocoblock_addon()->addons->addons_path('advanced-rest-api/inc/assets/icon/meta.svg') ?>
                     What is this and how it works?
                 </a>
             </div>
@@ -20,13 +20,13 @@
                     <div :class="{ 'cx-vui-repeater-item': true, 'cx-vui-panel': true, 'cx-vui-repeater-item--is-collpased': editID !== item.id }" v-for="( item, index ) in items">
                         <div :class="{ 'cx-vui-repeater-item__heading': true, 'cx-vui-repeater-item__heading--is-collpased': editID !== item.id }">
                             <div class="cx-vui-repeater-item__heading-start" @click="setEdit( item.id )">
-                                <?php require crocoblock_addon()->addons->addons_path('single-rest-api/inc/assets/icon/dropdown.svg') ?>
+                                <?php require crocoblock_addon()->addons->addons_path('advanced-rest-api/inc/assets/icon/dropdown.svg') ?>
                                 <div class="cx-vui-repeater-item__title">{{ item.name }}</div>
                                 <div class="cx-vui-repeater-item__subtitle">{{ item.url }}</div>
                             </div>
                         </div>
                         <div :class="{ 'cx-vui-repeater-item__content': true, 'cx-vui-repeater-item__content--is-collpased': editID !== item.id }">
-                            <crocoblock-addons-single-rest-api-item :value="item"/>
+                            <crocoblock-addons-advanced-rest-api-item :value="item"/>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
         </div>
     </div>
 </script>
-<script type="text/x-template" id="crocoblock-addons-single-rest-api-item">
+<script type="text/x-template" id="crocoblock-addons-advanced-rest-api-item">
     <div>
         <cx-vui-input label="API Endpoint URL" description="URL for the API endpoints to get items from" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-model="settings.url"></cx-vui-input>
         <cx-vui-switcher label="Single Rest API Endpoint" description="Enable Single Rest API Item" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-model="settings.isSingle"></cx-vui-switcher>
@@ -51,7 +51,7 @@
             </div>
         </cx-vui-component-wrapper>
         <cx-vui-component-wrapper :wrapper-css="[ 'equalwidth' ]">
-            <cx-vui-button button-style="accent" :loading="saving" :disabled="isDisabled()" @click="saveSingleRestAPI">
+            <cx-vui-button button-style="accent" :loading="saving" :disabled="isDisabled()" @click="saveAdvancedRestAPI">
                 <span slot="label">
                     {{ buttonLabel() }}
                 </span>
