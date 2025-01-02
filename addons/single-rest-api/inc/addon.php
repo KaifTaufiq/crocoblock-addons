@@ -3,6 +3,7 @@
 namespace CrocoblockAddons\Addons\SingleRestApi;
 
 use CrocoblockAddons\Addons\SingleRestApi\Settings;
+use CrocoblockAddons\Addons\SingleRestApi\Manager;
 
 // If this file is called directly, abort.
 if (! defined('WPINC')) {
@@ -21,6 +22,8 @@ class Addon
 
     public $settings = null;
 
+    public $manager = null;
+
     /**
      * Constructor for the class
      */
@@ -37,8 +40,9 @@ class Addon
     public function init()
     {
         require_once $this->addon_path('settings.php');
+        require_once $this->addon_path('manager.php');
         $this->settings = new Settings();
-        require_once $this->addon_path('logic.php');
+        $this->manager = new Manager();
     }
 
     public function get_setting(){

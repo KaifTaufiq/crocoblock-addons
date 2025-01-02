@@ -37,7 +37,7 @@ class Settings
         global $wpdb;
         $prefix = $wpdb->prefix;
         $table_name = $prefix . 'jet_post_types';
-        $args['url'] = sanitize_url($new_url);
+        $args['url'] = $new_url;
         $query = $wpdb->prepare(
             "UPDATE {$table_name} SET args = %s WHERE id = %d",
             maybe_serialize($args),
