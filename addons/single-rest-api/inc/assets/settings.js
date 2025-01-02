@@ -1,314 +1,194 @@
 (function ($, SingleRestApi) {
-    "use strict";
-    Vue.component( 'crocoblock-addons-single-rest-api', {
-      template: '#crocoblock-addons-single-rest-api',
-      data: function() {
-          return {
-              items: JetEngineRestListingsConfig.items,
-              isBusy: false,
-              editID: false,
-              authTypes: JetEngineRestListingsConfig.auth_types,
-              nonce: JetEngineRestListingsConfig._nonce,
-              deleteID: false,
-          };
-      },
-      methods: {
-          setEdit: function( itemID ) {
-              if ( itemID === this.editID ) {
-                  this.editID = false;
-              } else {
-                  this.editID = itemID;
-              }
-          },
-          deleteEndpoint: function( itemID, itemIndex ) {
-  
-              var self = this;
-  
-              self.items.splice( itemIndex, 1 );
-  
-              jQuery.ajax({
-                  url: window.ajaxurl,
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {
-                      action: 'jet_engine_api_endpoint_delete',
-                      nonce: self.nonce,
-                      item_id: itemID,
-                  },
-              }).done( function( response ) {
-                  if ( ! response.success ) {
-                      if ( response.data ) {
-                          self.$CXNotice.add( {
-                              message: response.data.message,
-                              type: 'error',
-                              duration: 15000,
-                          } );
-                      } else {
-                          self.$CXNotice.add( {
-                              message: 'Unknown error. Please try again later or contact our support.',
-                              type: 'error',
-                              duration: 15000,
-                          } );
-                      }
-                  } else {
-                      self.$CXNotice.add( {
-                          message: response.data.message,
-                          type: 'success',
-                          duration: 7000,
-                      } );
-                  }
-  
-              } ).fail( function( jqXHR, textStatus, errorThrown ) {
-  
-                  self.$CXNotice.add( {
-                      message: errorThrown,
-                      type: 'error',
-                      duration: 15000,
-                  } );
-  
-              } );
-  
-          },
-          newEndpoint: function( event, isSample ) {
-  
-              var self = this;
-  
-              self.isBusy = true;
-  
-              var item = {
-                  name: '',
-                  url: '',
-                  authorization: false,
-              };
-  
-              if ( isSample ) {
-                  item = JSON.parse( JSON.stringify( JetEngineRestListingsConfig.sample_item ) );
-              }
-  
-              jQuery.ajax({
-                  url: window.ajaxurl,
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {
-                      action: 'jet_engine_api_endpoint_save',
-                      nonce: self.nonce,
-                      item: item,
-                      item_id: false,
-                  },
-              }).done( function( response ) {
-                  if ( ! response.success ) {
-                      if ( response.data ) {
-                          self.$CXNotice.add( {
-                              message: response.data.message,
-                              type: 'error',
-                              duration: 15000,
-                          } );
-                      } else {
-                          self.$CXNotice.add( {
-                              message: 'Unknown error. Please try again later or contact our support.',
-                              type: 'error',
-                              duration: 15000,
-                          } );
-                      }
-                  } else {
-  
-                      item.id = response.data.item_id;
-                      self.items.push( item );
-                      self.setEdit( response.data.item_id );
-  
-                      self.$CXNotice.add( {
-                          message: response.data.message,
-                          type: 'success',
-                          duration: 7000,
-                      } );
-  
-                  }
-  
-                  self.isBusy = false;
-  
-              } ).fail( function( jqXHR, textStatus, errorThrown ) {
-  
-                  self.$CXNotice.add( {
-                      message: errorThrown,
-                      type: 'error',
-                      duration: 15000,
-                  } );
-  
-                  self.isBusy = false;
-  
-              } );
-  
-          }
+  "use strict";
+  Vue.component("crocoblock-addons-single-rest-api", {
+    template: "#crocoblock-addons-single-rest-api",
+    data: function () {
+      return {
+        items: SingleRestApi.listings,
+        nonce: SingleRestApi._nonce,
+        editID: false,
+        isBusy: false,
       }
-  } );
-  
-  Vue.component( 'crocoblock-addons-single-rest-api-item', {
-      template: '#crocoblock-addons-single-rest-api-item',
-      props: {
-          value: {
-              type: Object,
-              default: function() {
-                  return {};
-              },
-          },
-          isBusy: {
-              type: Boolean,
-              default: false,
-          }
+    },
+    methods: {
+      setEdit: function (itemID) {
+        if (itemID === this.editID) {
+          this.editID = false;
+        } else {
+          this.editID = itemID;
+        }
       },
-      data: function() {
-          return {
-              settings: {},
-              saving: false,
-              authTypes: JetEngineRestListingsConfig.auth_types,
-              nonce: JetEngineRestListingsConfig._nonce,
-              saveLabel: JetEngineRestListingsConfig.save_label,
-              savingLabel: JetEngineRestListingsConfig.saving_label,
-              sampleRequestError: null,
-              sampleRequestSuccess: null,
-              makingSampleRequest: false,
-          };
+    },
+    mounted: function () {
+
+    }
+  });
+
+  Vue.component("crocoblock-addons-single-rest-api-item", {
+    template: "#crocoblock-addons-single-rest-api-item",
+    props: {
+      value: {
+        type: Object,
+        default: function () {
+          return {};
+        },
       },
-      mounted: function() {
-          this.settings = this.value;
+      isBusy: {
+        type: Boolean,
+        default: false,
       },
-      methods: {
-          makeSampleRequest: function( event ) {
-              this.saveEndpoint( event, true );
-          },
-          isSaving: function() {
-              return this.saving || this.isBusy;
-          },
-          isDisabled: function() {
-              return this.makingSampleRequest || this.isBusy;
-          },
-          buttonLabel: function() {
-              if ( this.isSaving() ) {
-                  return this.savingLabel;
-              } else {
-                  return this.saveLabel;
-              }
-          },
-          saveEndpoint: function( event, withSampleRequest ) {
-  
-              var self = this;
-  
-              if ( withSampleRequest ) {
-                  self.makingSampleRequest = true;
-              } else {
-                  self.saving = true;
-              }
-  
-              jQuery.ajax({
-                  url: window.ajaxurl,
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {
-                      action: 'jet_engine_api_endpoint_save',
-                      nonce: self.nonce,
-                      item: self.settings,
-                      item_id: self.settings.id,
-                      with_sample_request: withSampleRequest,
-                  },
-              }).done( function( response ) {
-                  if ( ! response.success ) {
-                      if ( response.data ) {
-                          if ( withSampleRequest ) {
-                              self.sampleRequestSuccess = null;
-                              self.sampleRequestError = response.data.message;
-                          } else {
-                              self.$CXNotice.add( {
-                                  message: response.data.message,
-                                  type: 'error',
-                                  duration: 15000,
-                              } );
-                          }
-                      } else {
-                          self.$CXNotice.add( {
-                              message: 'Unknown error. Please try again later or contact our support.',
-                              type: 'error',
-                              duration: 15000,
-                          } );
-                      }
-                  } else {
-  
-                      if ( withSampleRequest ) {
-                          self.sampleRequestError = null;
-                          self.sampleRequestSuccess = response.data.message;
-                          self.$set( self.settings, 'connected', true );
-                      } else {
-                          self.$CXNotice.add( {
-                              message: response.data.message,
-                              type: 'success',
-                              duration: 7000,
-                          } );
-                      }
-  
-                      self.$emit( 'input', self.settings );
-                  }
-  
-                  if ( withSampleRequest ) {
-                      self.makingSampleRequest = false;
-                  } else {
-                      self.saving = false;
-                  }
-  
-              } ).fail( function( jqXHR, textStatus, errorThrown ) {
-  
-                  self.$CXNotice.add( {
-                      message: errorThrown,
-                      type: 'error',
-                      duration: 15000,
-                  } );
-  
-                  if ( withSampleRequest ) {
-                      self.makingSampleRequest = false;
-                  } else {
-                      self.saving = false;
-                  }
-  
-              } );
-  
-          },
-  
-          addNewRepeaterField: function( event, key, defaultField ) {
-              var field = defaultField || {};
-  
-              field._id = Math.round( Math.random() * 1000000 );
-              field.collapsed = false;
-  
-              if ( ! this.settings[ key ] ) {
-                  this.$set( this.settings, key, [] );
-              }
-  
-              this.settings[ key ].push( field );
-          },
-          setRepeaterFieldProp: function( parentKey, index, key, value ) {
-              var field = this.settings[ parentKey ][ index ];
-  
-              field[ key ] = value;
-  
-              this.settings[ parentKey ].splice( index, 1, field );
-          },
-          cloneRepeaterField: function( index, key ) {
-              var field = JSON.parse( JSON.stringify( this.settings[ key ][ index ] ) );
-  
-              field.collapsed = false;
-              field._id = Math.round( Math.random() * 1000000 );
-  
-              this.settings[ key ].splice( index + 1, 0, field );
-          },
-          deleteRepeaterField: function( index, key ) {
-              this.settings[ key ].splice( index, 1 );
-          },
-          isCollapsed: function( field ) {
-              if ( undefined === field.collapsed || true === field.collapsed ) {
-                  return true;
-              } else {
-                  return false;
-              }
-          },
+    },
+    data: function () {
+      return {
+        settings: {
+          keyDisplay: "",
+        },
+        nonce: SingleRestApi._nonce,
+        dropdown: SingleRestApi.dropdown_options,
+        saving: false,
+        saveLabel: SingleRestApi.save_label,
+				savingLabel: SingleRestApi.saving_label,
       }
-  } );
-  })(jQuery, CrocoBlockSingleRestApiSettings);
-  
+    },
+    methods: {
+      addNewQueryParameter: function (event , key, defaultQueryParameter) {
+        var field = defaultQueryParameter || {};
+
+        field.key = this.generateThreeLetterString();
+        field.keyDisplay = `{${field.key}}`;
+        field.collapsed = false;
+
+        if( !this.settings[key]) {
+          this.$set(this.settings, key, []);
+        }
+
+        this.settings[key].push(field);
+      },
+      generateThreeLetterString: function() {
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let result = "";
+        for (let i = 0; i < 3; i++) {
+            const randomIndex = Math.floor(Math.random() * letters.length);
+            result += letters[randomIndex];
+        }
+        return result;
+      },
+      copyKey: async function (key) {
+        try {
+          // Try modern Clipboard API first
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(`{${key}}`);
+          } else {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = `{${key}}`;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            console.log(textArea);
+            
+            try {
+              document.execCommand('copy');
+            } catch (err) {
+              throw new Error('Failed to copy using execCommand');
+            } finally {
+              textArea.remove();
+            }
+          }
+      
+          this.$CXNotice.add({
+            message: `Key ${key} copied`,
+            type: "success",
+            duration: 7000,
+          });
+        } catch (error) {
+          console.error('Copy failed:', error);
+          this.$CXNotice.add({
+            message: 'Failed to copy key - ' + error.message,
+            type: "error",
+            duration: 7000,
+          });
+        }
+      },
+      deleteRepeaterField: function (index, key) {
+        this.settings[key].splice(index, 1);
+      },
+      isDisabled: function() {
+        return this.isBusy;
+      },
+      saveSingleRestAPI: function() {
+        var self = this;
+        self.saving = true;
+
+        jQuery
+          .ajax({
+            url: window.ajaxurl,
+            type: "POST",
+            dataType: "json",
+            data: {
+              action: "crcoblock_save_single_rest_api",
+              nonce: self.nonce,
+              item: self.settings,
+            },
+          }).done(function (response) {
+            if (!response.success) {
+              self.$CXNotice.add({
+                message: response.data.message,
+                type: "error",
+                duration: 15000,
+              });
+              self.saving = false;
+            } else {
+              self.$CXNotice.add({
+                message: 'Saved',
+                type: "success",
+                duration: 7000,
+              });
+              self.saving = false;
+            }
+          }).fail(function (jqXHR, textStatus, errorThrown) {
+            self.$CXNotice.add({
+              message: errorThrown,
+              type: "error",
+              duration: 15000,
+            });
+            self.saving = false;
+          });
+      },
+      setRepeaterFieldProp: function (parentKey, index, key, value) {
+        var field = this.settings[parentKey][index];
+
+        field[key] = value;
+
+        this.settings[parentKey].splice(index, 1, field);
+      },
+      isCollapsed: function (field) {
+        if (undefined === field.collapsed || true === field.collapsed) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      buttonLabel: function() {
+				if ( this.isSaving() ) {
+					return this.savingLabel;
+				} else {
+					return this.saveLabel;
+				}
+			},
+      isSaving: function() {
+				return this.saving || this.isBusy;
+			},
+    },
+    mounted: function () {
+      this.settings = this.value;
+      this.settings.isSingle = Boolean(this.settings.isSingle);
+      this.settings.query_parameters.forEach((query_param, index) => {
+        query_param.keyDisplay = `{${query_param.key}}`;
+        query_param.debugShortcode = query_param.debugShortcode === true || query_param.debugShortcode === "true";
+      }); 
+    }
+  });
+})(jQuery, CrocoBlockSingleRestApiSettings);

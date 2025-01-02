@@ -1,0 +1,10 @@
+<svg v-if="editID !== item.id" width="14" height="14" viewBox="0 0 14 14" fill="none"
+    xmlns="http://www.w3.org/2000/svg" class="cx-vui-repeater-item__collapse cx-vui-repeater-item__collapse--is-collpased">
+    <rect width="14" height="14" transform="matrix(1 0 0 -1 0 14)" fill="white"></rect>
+    <path d="M13 5.32911L7 11L1 5.32911L2.40625 4L7 8.34177L11.5938 4L13 5.32911Z"></path>
+</svg>
+<svg v-else width="14" height="14" viewBox="0 0 14 14" fill="none"
+    xmlns="http://www.w3.org/2000/svg" class="cx-vui-repeater-item__collapse">
+    <rect width="14" height="14" transform="matrix(1 0 0 -1 0 14)" fill="white"></rect>
+    <path d="M13 5.32911L7 11L1 5.32911L2.40625 4L7 8.34177L11.5938 4L13 5.32911Z"></path>
+</svg>

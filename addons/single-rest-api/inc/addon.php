@@ -38,6 +38,38 @@ class Addon
     {
         require_once $this->addon_path('settings.php');
         $this->settings = new Settings();
+        require_once $this->addon_path('logic.php');
+    }
+
+    public function get_setting(){
+        $option = get_option('cba-' . $this->slug, []);
+        $unserialized = maybe_unserialize($option);
+        return is_array($unserialized) ? $unserialized : [];
+    }
+    
+    public function update_single_item($item_id, $item) {
+    
+        $settings = $this->get_setting();
+
+        $query_parameters = isset($item['query_parameters']) && is_array($item['query_parameters']) ? $item['query_parameters'] : [];
+        $settings[$item_id] = [
+            'isSingle' => isset($item['isSingle']) ? sanitize_text_field($item['isSingle']) : false,
+            'query_parameters' => array_map(function($param) {
+                return [
+                    'key' => isset($param['key']) ? sanitize_text_field($param['key']) : '',
+                    'from' => isset($param['from']) ? sanitize_text_field($param['from']) : '',
+                    'query_var' => isset($param['query_var']) ? sanitize_text_field($param['query_var']) : '',
+                    'shortcode' => isset($param['shortcode']) ? sanitize_text_field($param['shortcode']) : '',
+                    'debugShortcode' => isset($param['debugShortcode']) ? sanitize_text_field($param['debugShortcode']) : false,
+                ];
+            }, $query_parameters),
+        ];
+        return $this->update_setting($settings);
+    }
+    
+    public function update_setting($new_setting) {
+        $serialized = maybe_serialize($new_setting);
+        return update_option('cba-' . $this->slug, $serialized, true);
     }
 
     /**
@@ -63,7 +95,7 @@ class Addon
     }
 
 
-
+    
     public static function instance()
     {
         if (null == self::$instance) {
