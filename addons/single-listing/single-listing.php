@@ -1,64 +1,52 @@
 <?php
-// Silence is Great
-if (!defined('ABSPATH')) {
-    exit;
+
+/**
+ * Single Listing Addon
+ */
+namespace CrocoblockAddons\Addons;
+use CrocoblockAddons\Base\Addon;
+
+// If this file is called directly, abort.
+if (! defined('WPINC')) {
+    die;
 }
-$dir = __FILE__;
-// echo '<script>console.log("'.$dir.'");</script>';
-add_action('jet-engine/query-builder/query/after-query-setup', function ($query) {
-    if (isset($_POST['singleID']) && $query->query_type != 'rest-api') {
-        // echo "<script>console.log('" . json_encode($query) . "');</script>"; // For Debugging
-        $singleID = intval($_POST['singleID']);
-        switch ($query->query_type) {
-            case 'posts':
-                $query->final_query['p'] = $singleID;
-                break;
-            case 'custom-content-type':
-                if (isset($query->final_query['args'][0]['field'])) {
-                    $query->final_query['args'][0]['value'] = $singleID;
-                }
-                break;
-            case 'users':
-                $query->final_query['include'] = $singleID;
-                break;
-            case 'terms':
-                $query->final_query['include'] = $singleID;
-                break;
-            case 'sql':
-                if (isset($query->query['advanced_mode']) && $query->query['advanced_mode'] == 'true') {
-                    $manual_query = $query->final_query['manual_query'];
-                    if (str_contains($manual_query, '{replace}')) {
-                        $query->final_query['manual_query'] = str_replace('{replace}', $singleID, $manual_query);
-                    }
-                } else {
-                    if (isset($query->final_query['where'][0]['column'])) {
-                        $query->final_query['where'][0]['value'] = $singleID;
-                    }
-                }
-                break;
-            case 'comments':
-                $query->final_query['comment__in'] = $singleID;
-                break;
-            case 'wc-product-query':
-                $query->final_query['include'] = [$singleID];
-                break;
-            default:
-                break;
+
+if (! class_exists('SingleListing')) {
+
+    /**
+     * Define SingleListing
+     */
+    class SingleListing extends Addon
+    {
+
+        public $instance = null;
+
+        public function addon_id()
+        {
+            return 'single-listing';
         }
-        return $query;
-    } elseif (isset($_POST['singleID']) && $query->query_type == 'rest-api') {
-        $modules = get_option('crocoblock_addon_features');
-        $is_single = get_option('cba-single-rest-api');
-        $endpoint = $query->final_query['endpoint'];
-        if (empty($modules) || !isset($modules['single-rest-api']) || $modules['single-rest-api'] == 'off' || empty($is_single) || !isset($is_single[$endpoint]) || $is_single[$endpoint]['status'] != 'on') {
-            return;
+        public function addon_name()
+        {
+            return __('Single Listing', 'crocoblock-addons');
         }
-        add_filter( 'jet-engine/rest-api-listings/request/url', function( $url, $instance ){
-            $singleID = intval($_POST['singleID']);
-            if(str_contains($url, '{replace}')){
-                $new_url = str_replace('{replace}', $singleID, $url);
-            }
-            return $new_url;
-        }, 10, 2 );
+        public function addon_init()
+        {
+            add_action('crocoblock-addons/init', array($this,'create_instance'));
+        }
+
+        public function create_instance($crocoblock_addon){
+            require $crocoblock_addon->addons->addons_path( 'single-listing/inc/addon.php' );
+            $this->instance = \CrocoblockAddons\Addons\SingleListing\Addon::instance();
+        }
+
+        public function get_addon_details()
+        {
+            return '<p>Advanced Rest API Details</p>';
+        }
+
+        public function get_addon_links()
+        {
+            return array();
+        }
     }
-});
+}

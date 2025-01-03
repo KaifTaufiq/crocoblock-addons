@@ -22,8 +22,6 @@ class Migration{
 		}
         $single_rest_api = get_option('cba-single-rest-api');
     	$addon_features = get_option('crocoblock_addon_features');
-        $active_addons = get_option('crocoblock_addons_active_addon');
-        $advanced_rest_api = get_option('cba-advanced-rest-api');
 
         $new_active_addons = [];
         $new_advanced_rest_api = [];
@@ -63,16 +61,10 @@ class Migration{
             }
             update_option("crocoblock_addons_active_addon", $new_active_addons);
         }
-        $migration_data = [
-            'single_rest_api' => $single_rest_api,
-            'addon_features' => $addon_features,
-            'active_addons' => $active_addons,
-            'advanced_rest_api' => $advanced_rest_api,
-            'new_active_addons' => $new_active_addons,
-            'new_advanced_rest_api' => $new_advanced_rest_api,
-        ];
         delete_option('cba-migration');
-        wp_send_json_success(['message' => 'Migration Started', 'data' => $migration_data]);
+        delete_option('cba-single-rest-api');
+        delete_option('crocoblock_addon_features');
+        wp_send_json_success('Migration Completed');
     }
 
     public function settings_migration() {

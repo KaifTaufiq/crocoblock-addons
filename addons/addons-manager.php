@@ -81,15 +81,18 @@ if (! class_exists('AddonManager')) {
             $path  = crocoblock_addon()->plugin_path('addons/');
 
             $all_addons = apply_filters('crocoblock_addons/available-addons', array(
-                'Addon_Advanced_Rest_API' => $path . 'advanced-rest-api/advanced-rest-api.php',
+                'AdvancedRestAPI' => $path . 'advanced-rest-api/advanced-rest-api.php',
+                'SingleListing' => $path .'single-listing/single-listing.php',
             ));
 
             // Load the Base Classes
             require_once crocoblock_addon()->plugin_path('base/base-addon.php');
+            require_once crocoblock_addon()->plugin_path('base/active-addon.php');
 
             foreach ($all_addons as $addon => $file) {
                 require $file;
-                $instance = new $addon;
+                $format = "\CrocoblockAddons\Addons\\" . $addon; // namespace concatenation
+                $instance = new $format();
                 $this->addons[$instance->addon_id()] = $instance;
             }
         }

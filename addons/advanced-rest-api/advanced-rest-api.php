@@ -3,7 +3,7 @@
 /**
  * Advanced Rest API Addon
  */
-
+namespace CrocoblockAddons\Addons;
 use CrocoblockAddons\Base\Addon;
 
 // If this file is called directly, abort.
@@ -11,12 +11,12 @@ if (! defined('WPINC')) {
     die;
 }
 
-if (! class_exists('Addon_Advanced_Rest_API')) {
+if (! class_exists('AdvancedRestAPI')) {
 
     /**
-     * Define Addon_Advanced_Rest_API
+     * Define AdvancedRestAPI
      */
-    class Addon_Advanced_Rest_API extends Addon
+    class AdvancedRestAPI extends Addon
     {
 
         public $instance = null;

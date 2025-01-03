@@ -52,7 +52,7 @@ class Single_Listing_Bricks extends \Bricks\Element
     }
     public function enqueue_widget_scripts($settings) {
         // Register the JavaScript file
-        wp_register_script('SingleListing', plugin_dir_url(__FILE__) . '/script.js', array(), '1.0', true);
+        
         
         // Localize script with widget settings (PHP to JS)
         $localized_data = array(

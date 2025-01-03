@@ -4,13 +4,14 @@ namespace CrocoblockAddons\Addons\AdvancedRestApi;
 
 use CrocoblockAddons\Addons\AdvancedRestApi\Settings;
 use CrocoblockAddons\Addons\AdvancedRestApi\Manager;
+use CrocoblockAddons\Base\ActiveAddon;
 
 // If this file is called directly, abort.
 if (! defined('WPINC')) {
     die;
 }
 
-class Addon
+class Addon extends ActiveAddon
 {
     private static $instance = null;
 
@@ -44,12 +45,6 @@ class Addon
         $this->settings = new Settings();
         $this->manager = new Manager();
     }
-
-    public function get_setting(){
-        $option = get_option('cba-' . $this->slug, []);
-        $unserialized = maybe_unserialize($option);
-        return is_array($unserialized) ? $unserialized : [];
-    }
     
     public function update_single_item($item_id, $item) {
     
@@ -70,42 +65,13 @@ class Addon
         ];
         return $this->update_setting($settings);
     }
-    
-    public function update_setting($new_setting) {
-        $serialized = maybe_serialize($new_setting);
-        return update_option('cba-' . $this->slug, $serialized, true);
-    }
 
-    /**
-     * Return path inside addon
-     *
-     * @param  string $relative_path [description]
-     * @return [type]                [description]
-     */
-    public function addon_path($relative_path = '')
-    {
-        return crocoblock_addon()->addons->addons_path($this->slug . '/inc/' . $relative_path);
-    }
-
-    /**
-     * Return url inside addon
-     *
-     * @param  string $relative_path [description]
-     * @return [type]                [description]
-     */
-    public function addon_url($relative_path = '')
-    {
-        return crocoblock_addon()->addons->addons_url($this->slug . '/inc/' . $relative_path);
-    }
-
-
-    
     public static function instance()
-    {
-        if (null == self::$instance) {
-            self::$instance = new self;
-        }
+        {
+            if (null == self::$instance) {
+                self::$instance = new self;
+            }
 
-        return self::$instance;
-    }
+            return self::$instance;
+        }
 }
