@@ -44,7 +44,7 @@
                     });
                     self.saving = false;
                     setTimeout(function() {
-                        // window.location.reload();
+                        window.location.reload();
                     }, 3000);
                   }
             }).fail(function(jqXHR, textStatus, errorThrown) {

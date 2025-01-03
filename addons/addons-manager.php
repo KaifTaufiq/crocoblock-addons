@@ -177,19 +177,8 @@ if (! class_exists('AddonManager')) {
             if (empty($addons)) {
                 return;
             }
-
-            $fixed = array();
-
             foreach ($addons as $addon) {
-                $fixed[$addon] = 'true';
-            }
-            
-            $addons = $fixed;
-
-            foreach ($addons as $addon => $is_active) {
-                if ('true' === $is_active) {
-                    $this->init_addon($addon);
-                }
+                $this->init_addon($addon);
             }
         }
 
