@@ -4,6 +4,8 @@ if (!defined('WPINC')) {
     die;
 }
 
+use CrocoblockAddons\Migration;
+
 if (!class_exists('Dashboard')) {
     class Dashboard
     {
@@ -12,7 +14,13 @@ if (!class_exists('Dashboard')) {
         public function __construct()
         {
             add_action('jet-engine/dashboard/tabs/after-skins', [$this, 'settings_tab']);
-            add_action('jet-engine/dashboard/assets', [$this, 'settings_assets']);
+            $migration_check = get_option('cba-migration');
+            if ( $migration_check == "1"){
+                require crocoblock_addon()->plugin_path('dashboard/migration.php');
+                new Migration();
+            } else {
+                add_action('jet-engine/dashboard/assets', [$this, 'settings_assets']);
+            }
         }
 
         public function get_nonce_action()
@@ -26,7 +34,11 @@ if (!class_exists('Dashboard')) {
             <cx-vui-tabs-panel name="crocoblock_addons" label="<?php _e('Crocblock Addons', 'crocoblock-addons'); ?>"
                 key="crocoblock_addons">
                 <keep-alive>
+                <?php if (get_option('cba-migration') == "1") : ?>
+                    <crocoblock-addons-migration></crocoblock-addons-migration>
+                <?php else : ?>
                     <crocoblock-addons-settings></crocoblock-addons-settings>
+                <?php endif; ?>
                 </keep-alive>
             </cx-vui-tabs-panel>
         <?php

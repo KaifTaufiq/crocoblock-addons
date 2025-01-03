@@ -119,8 +119,12 @@ if (! class_exists('CrocoblockAddons')) {
 		 */
 		public function activation()
 		{
-			// Migrate old Data with Admin Notice to inform user
-			TODO: // Add Migration Code
+			
+			$single_rest_api = get_option('cba-single-rest-api');
+    		$addon_features = get_option('crocoblock_addon_features');
+			if( $single_rest_api != '' || $addon_features != '') {
+				update_option('cba-migration', '1');
+			}
 		}
 
 		/**
@@ -141,8 +145,10 @@ if (! class_exists('CrocoblockAddons')) {
 		public function init()
 		{
 			$this->dashboard = new Dashboard();
-			$this->addons = new AddonManager();
-			do_action('crocoblock-addons/init', $this);
+			if( get_option('cba-migration') != "1") {
+				$this->addons = new AddonManager();
+				do_action('crocoblock-addons/init', $this);
+			}
 		}
 
 		public function plugin_path($path = null)

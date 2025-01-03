@@ -198,7 +198,7 @@ if (! class_exists('AddonManager')) {
         public function get_active_addons()
         {
             $active_addons = get_option($this->option_name, array());
-            return array_values($active_addons);
+            return $active_addons;
         }
 
         /**

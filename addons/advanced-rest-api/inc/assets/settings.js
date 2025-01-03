@@ -47,7 +47,7 @@
           dropdown: AdvancedRestApi.dropdown_options,
           saving: false,
           saveLabel: AdvancedRestApi.save_label,
-                  savingLabel: AdvancedRestApi.saving_label,
+          savingLabel: AdvancedRestApi.saving_label,
         }
       },
       methods: {

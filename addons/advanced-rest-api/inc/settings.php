@@ -56,7 +56,6 @@ class Settings
         );
 
         $listings = $this->get_listings();
-        do_action('qm/info',$listings);
 
         wp_localize_script(
             'crocoblock-addons-advanced-rest-api',
