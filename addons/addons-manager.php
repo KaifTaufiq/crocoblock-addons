@@ -16,7 +16,7 @@ if (! class_exists('AddonManager')) {
      */
     class AddonManager
     {
-        public  $option_name    = 'crocoblock_addons_settings';
+        public  $option_name    = 'crocoblock_addons_active_addon';
         private $addons        = array();
         private $active_addons = array();
 

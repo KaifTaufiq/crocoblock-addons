@@ -22,23 +22,56 @@ class Migration{
 		}
         $single_rest_api = get_option('cba-single-rest-api');
     	$addon_features = get_option('crocoblock_addon_features');
-        $active_addons = get_option('crocoblock_addons_settings');
+        $active_addons = get_option('crocoblock_addons_active_addon');
         $advanced_rest_api = get_option('cba-advanced-rest-api');
 
+        $new_active_addons = [];
+        $new_advanced_rest_api = [];
+
+        if ( $single_rest_api ) {
+            foreach ( $single_rest_api as $id => $value) {
+                if( $value['status'] == "on" ) {
+                    $query_parameter = [
+                        [
+                            'key' => 'replace',
+                            'from' => 'query_var',
+                            'query_var' => 'id',
+                            'shortcode' => '',
+                            'debugShortcode' => false,
+                        ]
+                    ];
+                    if( $value['custom_key'] != "" ){
+                        $query_parameter[0]['query_var'] = $value['custom_key'];
+                    }
+                    $new_advanced_rest_api[$id] = [
+                        'isSingle' => "true",
+                        'query_parameters' => $query_parameter
+                    ];
+                }
+            }
+            update_option('cba-advanced-rest-api', $new_advanced_rest_api);
+        }
+        if( $addon_features ) {
+            foreach ( $addon_features as $name => $status) {
+                if($status === "on") {
+                    if($name === "single-rest-api") {
+                        $new_active_addons[] = "advanced-rest-api";
+                    } else {
+                        $new_active_addons[] = $name;
+                    }
+                }
+            }
+            update_option("crocoblock_addons_active_addon", $new_active_addons);
+        }
         $migration_data = [
             'single_rest_api' => $single_rest_api,
             'addon_features' => $addon_features,
             'active_addons' => $active_addons,
             'advanced_rest_api' => $advanced_rest_api,
+            'new_active_addons' => $new_active_addons,
+            'new_advanced_rest_api' => $new_advanced_rest_api,
         ];
-
-        if ( $single_rest_api ) {
-            
-        }
-        if( $addon_features ) {
-            
-        }
-        // delete_option('cba-migration');
+        delete_option('cba-migration');
         wp_send_json_success(['message' => 'Migration Started', 'data' => $migration_data]);
     }
 
