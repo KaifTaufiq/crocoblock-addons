@@ -2,7 +2,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
+use \Elementor\Group_Control_Box_Shadow;
+use \Elementor\Group_Control_Typography;
 if( class_exists('\Elementor\Widget_Base')){
     class MegaMenuBuilder_Elementor extends \Elementor\Widget_Base
     {
