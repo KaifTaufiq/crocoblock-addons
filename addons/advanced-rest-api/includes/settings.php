@@ -85,7 +85,14 @@ class Settings
     }
 
     public function print_templates() {
-		require_once Addon::instance()->addon_assets_path('template.php');
+        ?>
+        <script type="text/x-template" id="crocoblock-addons-advanced-rest-api">
+            <?php require_once Addon::instance()->addon_assets_path('setting.php'); ?>
+        </script>
+        <script type="text/x-template" id="crocoblock-addons-advanced-rest-api-item">
+            <?php require_once Addon::instance()->addon_assets_path('repeater-item.php'); ?>
+        </script>
+        <?php
     }
     public function get_listings($id = null) {
         global $wpdb;
