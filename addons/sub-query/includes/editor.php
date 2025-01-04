@@ -110,6 +110,6 @@ class Editor extends \Jet_Engine\Query_Builder\Query_Editor\Base_Query {
 	 * @return [type] [description]
 	 */
 	public function editor_component_file() {
-		return crocoblock_addon()->addons->addons_url( 'sub-query/inc/assets/js/query-editor.js' );
+		return crocoblock_addon()->addons->addons_url( 'sub-query/assets/query-editor.js' );
 	}
 }

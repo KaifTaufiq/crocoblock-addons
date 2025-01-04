@@ -15,23 +15,23 @@ class Addon extends ActiveAddon
      */
     public function __construct()
     {
-        require_once $this->addon_path('manager.php');    
+        require_once $this->addon_includes_path('manager.php');    
         $this->manager = new Manager();
         wp_register_script(
             'SingleListing',
-            $this->addon_url('assets/script.js'),
+            $this->addon_assets_url('script.js'),
             ['jquery'],
             crocoblock_addon()->get_version(),
             true
         );
         $this->elementor_widgets = [
             [
-                'filename' => 'elementor-widget',
+                'file' => 'elementor-widget.php',
                 'class' => 'Single_Listing_Elementor',
             ]
         ];
         add_action('elementor/widgets/register', [ $this,'register_elementor_widget']);
-        $this->bricks_widgets = ['bricks-widget'];
+        $this->bricks_widgets = ['bricks-widget.php'];
         add_action('init', [$this,'register_bricks_widget']);
     }
     

@@ -35,7 +35,7 @@ if (! class_exists('AdvancedRestAPI')) {
         }
 
         public function create_instance($crocoblock_addon){
-            require $crocoblock_addon->addons->addons_path( 'advanced-rest-api/inc/addon.php' );
+            require $crocoblock_addon->addons->addons_path( 'advanced-rest-api/includes/addon.php' );
             $this->instance = \CrocoblockAddons\Addons\AdvancedRestApi\Addon::instance();
         }
 

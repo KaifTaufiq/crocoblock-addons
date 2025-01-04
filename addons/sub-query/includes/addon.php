@@ -35,7 +35,7 @@ class Addon extends ActiveAddon
 	 * @return [type]          [description]
 	 */
 	public function register_editor_component( $manager ) {
-        require_once $this->addon_path('editor.php');
+        require_once $this->addon_includes_path('editor.php');
 		$manager->register_type( new Editor() );
 	}
 
@@ -50,7 +50,7 @@ class Addon extends ActiveAddon
 		$class = __NAMESPACE__ . '\Query';
 
 		if ( ! class_exists( $class ) ) {
-			require_once $this->addon_path('query.php');
+			require_once $this->addon_includes_path('query.php');
 		}
 
 		$manager::register_query( $this->slug, $class );

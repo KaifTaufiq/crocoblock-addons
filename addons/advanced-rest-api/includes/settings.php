@@ -49,7 +49,7 @@ class Settings
     public function settings_js(){
         wp_enqueue_script(
             'crocoblock-addons-advanced-rest-api',
-            Addon::instance()->addon_url('assets/settings.js'),
+            Addon::instance()->addon_assets_url('settings.js'),
             ['cx-vue-ui'],
             crocoblock_addon()->get_version(),
             true
@@ -85,7 +85,7 @@ class Settings
     }
 
     public function print_templates() {
-		require_once crocoblock_addon()->addons->addons_path('advanced-rest-api/inc/assets/template.php');
+		require_once Addon::instance()->addon_assets_path('template.php');
     }
     public function get_listings($id = null) {
         global $wpdb;

@@ -40,8 +40,8 @@ class Addon extends ActiveAddon
      */
     public function init()
     {
-        require_once $this->addon_path('settings.php');
-        require_once $this->addon_path('manager.php');
+        require_once $this->addon_includes_path('settings.php');
+        require_once $this->addon_includes_path('manager.php');
         $this->settings = new Settings();
         $this->manager = new Manager();
     }

@@ -64,9 +64,9 @@ if (! class_exists('ActiveAddon')) {
          * @param  string $relative_path [description]
          * @return [type]                [description]
          */
-        public function addon_path($relative_path = '')
+        public function addon_includes_path($relative_path = '')
         {
-            return crocoblock_addon()->addons->addons_path($this->slug . '/inc/' . $relative_path);
+            return crocoblock_addon()->addons->addons_path($this->slug . '/includes/' . $relative_path);
         }
 
         /**
@@ -75,14 +75,58 @@ if (! class_exists('ActiveAddon')) {
          * @param  string $relative_path [description]
          * @return [type]                [description]
          */
-        public function addon_url($relative_path = '')
+        public function addon_includes_url($relative_path = '')
         {
-            return crocoblock_addon()->addons->addons_url($this->slug . '/inc/' . $relative_path);
+            return crocoblock_addon()->addons->addons_url($this->slug . '/includes/' . $relative_path);
+        }
+
+        /**
+         * Return path of assets inside addon
+         *
+         * @param  string $relative_path [description]
+         * @return [type]                [description]
+         */
+        public function addon_assets_path($relative_path = '')
+        {
+            return crocoblock_addon()->addons->addons_path($this->slug . '/assets/' . $relative_path);
+        }
+
+        /**
+         * Return url of assets inside addon
+         *
+         * @param  string $relative_path [description]
+         * @return [type]                [description]
+         */
+        public function addon_assets_url($relative_path = '')
+        {
+            return crocoblock_addon()->addons->addons_url($this->slug . '/assets/' . $relative_path);
+        }
+
+        /**
+         * Return path of widgets inside addon
+         *
+         * @param  string $relative_path [description]
+         * @return [type]                [description]
+         */
+        public function addon_widgets_path($relative_path = '')
+        {
+            return crocoblock_addon()->addons->addons_path($this->slug . '/widgets/' . $relative_path);
+        }
+
+        /**
+         * Return url of widgets inside addon
+         *
+         * @param  string $relative_path [description]
+         * @return [type]                [description]
+         */
+        public function addon_widgets_url($relative_path = '')
+        {
+            return crocoblock_addon()->addons->addons_url($this->slug . '/widgets/' . $relative_path);
         }
 
         public function register_elementor_widget($widgets_manager) {
             foreach($this->elementor_widgets as $widget) {
-                $path = $this->addon_path('widgets/elementor/' . $widget['filename'] . '.php');
+                $path = $this->addon_widgets_path($widget['file']);
                 $class = $widget['class'];
                 if( file_exists($path) ) {
                     require_once $path;
@@ -95,7 +139,7 @@ if (! class_exists('ActiveAddon')) {
         
         public function register_bricks_widget() {
             foreach($this->bricks_widgets as $filename) {
-                $path = $this->addon_path('widgets/bricks/' . $filename . '.php');
+                $path = $this->addon_widgets_path($filename);
                 if( file_exists($path) ) {
                     if (class_exists('\Bricks\Elements')) {
 						\Bricks\Elements::register_element($path);
