@@ -41,7 +41,9 @@ if (! class_exists('AdvancedRestAPI')) {
 
         public function get_addon_details()
         {
-            return '<p>Advanced Rest API Details</p>';
+            return '<div class="jet-engine-links__title">Advanced Rest API</div>
+            <p>After activation, the Advanced Rest API tab will be added to the JetEngine Settings dashboard.</p>
+            <p>You can Add Dynamic Query Variable from to REST API URL, Enable Single Listing Item and POST Request Type</p>';
         }
 
         public function get_addon_links()

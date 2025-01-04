@@ -83,6 +83,7 @@ if (! class_exists('AddonManager')) {
             $all_addons = apply_filters('crocoblock_addons/available-addons', array(
                 'AdvancedRestAPI' => $path . 'advanced-rest-api/advanced-rest-api.php',
                 'SingleListing' => $path .'single-listing/single-listing.php',
+                'SubQuery' => $path . 'sub-query/sub-query.php',
             ));
 
             // Load the Base Classes
