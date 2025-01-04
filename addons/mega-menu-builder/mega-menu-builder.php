@@ -20,6 +20,11 @@ if (! class_exists('MegaMenuBuilder')) {
     {
         public $instance = null;
 
+        public function support_bricks()
+        {
+            return false;
+        }
+
         public function addon_id()
         {
             return 'mega-menu-builder';
