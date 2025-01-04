@@ -30,6 +30,16 @@
                 </div>
             </div>
         </div>
+        <div class="cx-vui-component-meta">
+            <a href="https://codex.wordpress.org/WordPress_Query_Vars" target="_blank" class="jet-engine-dash-help-link">
+                <?php require crocoblock_addon()->addons->addons_path('advanced-rest-api/assets/icon/meta.svg') ?>
+                
+            Warning: Some query variables are reserved by WordPress (e.g., 'name', 'page', 'author'). 
+            Using reserved variables may result is page not found error. Please check the documentation for a complete list.
+        
+    
+            </a>
+        </div>
     </div>
     <div class="cx-vui-inner-panel" v-if="items.length == 0">
         <div
