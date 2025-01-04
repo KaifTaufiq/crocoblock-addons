@@ -84,6 +84,7 @@ if (! class_exists('AddonManager')) {
                 'AdvancedRestAPI' => $path . 'advanced-rest-api/advanced-rest-api.php',
                 'SingleListing' => $path .'single-listing/single-listing.php',
                 'SubQuery' => $path . 'sub-query/sub-query.php',
+                'MegaMenuBuilder' => $path . 'mega-menu-builder/mega-menu-builder.php',
             ));
 
             // Load the Base Classes

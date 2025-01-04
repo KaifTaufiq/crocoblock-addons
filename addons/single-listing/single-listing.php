@@ -41,7 +41,7 @@ if (! class_exists('SingleListing')) {
 
         public function get_addon_details()
         {
-            return '<p>Advanced Rest API Details</p>';
+            return '<div class="jet-engine-links__title">Single Listing</div>';
         }
 
         public function get_addon_links()
