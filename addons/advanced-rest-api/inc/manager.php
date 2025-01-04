@@ -13,6 +13,7 @@ class Manager
         $this->settings = Addon::instance()->get_setting();
         add_filter('jet-engine/rest-api-listings/response/body', [$this,'FormatResponseBody'], 10, 4);
         add_filter('jet-engine/rest-api-listings/request/url',  [$this,'FormatRequestURL'], 10, 2);
+        add_filter( 'jet-engine/rest-api-listings/request/type', [$this,'ChangeType'], 10,2);
     }
 
     public function FormatResponseBody($body, $request_instance, $query_args, $response) {
@@ -78,5 +79,13 @@ class Manager
             return $new_url;
         }
         return $url;
+    }
+
+    public function ChangeType($type, $instance) {
+        $id = $instance->get_endpoint()['id'];
+        if( isset($this->settings[$id]) && $this->settings[$id]['isPOST'] === 'true') {
+            $type = 'post';
+        }
+        return $type;
     }
 }

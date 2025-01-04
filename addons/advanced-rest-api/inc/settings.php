@@ -129,6 +129,7 @@ class Settings
                 'name' => $listing->labels['name'],
                 'url' => $listing->args['url'],
                 'isSingle' => isset($settings[$listing->id]['isSingle']) ? $settings[$listing->id]['isSingle'] : false,
+                'isPOST' => isset($settings[$listing->id]['isPOST']) ? $settings[$listing->id]['isPOST'] : false,
                 'query_parameters' => isset($settings[$listing->id]['query_parameters']) ? $settings[$listing->id]['query_parameters'] : [],
             ];
         }

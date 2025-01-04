@@ -38,6 +38,7 @@
     <div>
         <cx-vui-input label="API Endpoint URL" description="URL for the API endpoints to get items from" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-model="settings.url"></cx-vui-input>
         <cx-vui-switcher label="Single Rest API Endpoint" description="Enable Single Rest API Item" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-model="settings.isSingle"></cx-vui-switcher>
+        <cx-vui-switcher label="Enable POST Request" description="By Deafult Jet Engine Makes GET REST API Requests, You can Enable it to be POST" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-model="settings.isPOST"></cx-vui-switcher>
         <cx-vui-component-wrapper :wrapper-css="[ 'fullwidth-control' ]">
             <div class="cx-vui-inner-panel">
                 <cx-vui-repeater button-label="Add Query Parameter" button-size="mini" button-style="accent" v-model="settings.query_parameters" @add-new-item="addNewQueryParameter( $event , 'query_parameters', { 'key': '' , 'from': '' , 'query_var' : '' , 'shortcode' : '' , 'debugShortcode' : '' } )">

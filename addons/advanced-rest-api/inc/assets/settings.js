@@ -185,6 +185,7 @@
       mounted: function () {
         this.settings = this.value;
         this.settings.isSingle = Boolean(this.settings.isSingle);
+        this.settings.isPOST = Boolean(this.settings.isPOST);
         this.settings.query_parameters.forEach((query_param, index) => {
           query_param.keyDisplay = `{${query_param.key}}`;
           query_param.debugShortcode = query_param.debugShortcode === true || query_param.debugShortcode === "true";
