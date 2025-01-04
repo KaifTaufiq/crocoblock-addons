@@ -62,6 +62,14 @@ class Single_Listing_Bricks extends \Bricks\Element
             'closeBtn'       => $settings['closeBtn'],
             'activeItemClass'    => $settings['activeItemClass'],
         );
+
+        wp_register_script(
+            'SingleListing',
+            crocoblock_addon()->plugin_url('addons/single-listing/assets/script.js'),
+            ['jquery'],
+            crocoblock_addon()->get_version(),
+            true
+        );
         
         wp_localize_script('SingleListing', 'SingleQuerySettings', $localized_data);
         

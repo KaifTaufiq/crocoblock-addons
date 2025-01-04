@@ -88,6 +88,14 @@ class Single_Listing_Elementor extends \Elementor\Widget_Base {
 			'activeItemClass'    => $settings['activeItemClass'],
         );
         
+		wp_register_script(
+            'SingleListing',
+            crocoblock_addon()->plugin_url('addons/single-listing/assets/script.js'),
+            ['jquery'],
+            crocoblock_addon()->get_version(),
+            true
+        );
+
         wp_localize_script('SingleListing', 'SingleQuerySettings', $localized_data);
         
         // Enqueue the script

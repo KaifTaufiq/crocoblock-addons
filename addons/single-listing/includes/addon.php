@@ -17,13 +17,7 @@ class Addon extends ActiveAddon
     {
         require_once $this->addon_includes_path('manager.php');    
         $this->manager = new Manager();
-        wp_register_script(
-            'SingleListing',
-            $this->addon_assets_url('script.js'),
-            ['jquery'],
-            crocoblock_addon()->get_version(),
-            true
-        );
+        
         $this->elementor_widgets = [
             [
                 'file' => 'elementor-widget.php',
