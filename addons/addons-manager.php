@@ -85,6 +85,7 @@ if (! class_exists('AddonManager')) {
                 'SingleListing' => $path .'single-listing/single-listing.php',
                 'SubQuery' => $path . 'sub-query/sub-query.php',
                 'MegaMenuBuilder' => $path . 'mega-menu-builder/mega-menu-builder.php',
+                'CallBack_TextFormatting' => $path . 'callback-text-formatting/callback-text-formatting.php',
             ));
 
             // Load the Base Classes
