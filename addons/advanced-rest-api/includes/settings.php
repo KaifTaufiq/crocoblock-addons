@@ -150,7 +150,7 @@ class Settings
         <cx-vui-tabs-panel
             name="advanced_rest_api"
             label="<?php _e('Advanced REST API', 'crocoblock-addons'); ?>"
-            key="data_stores">
+            key="advanced_rest_api">
             <keep-alive>
                 <crocoblock-addons-advanced-rest-api></crocoblock-addons-advanced-rest-api>
             </keep-alive>
