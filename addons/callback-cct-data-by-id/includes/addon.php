@@ -106,7 +106,8 @@ class Addon extends ActiveAddon
     
         // Get all CCTs
         $query = $wpdb->prepare(
-            "SELECT * FROM {$post_type} WHERE status = 'content-type'"
+            "SELECT * FROM {$post_type} WHERE status = %s",
+            'content-type'
         );
         $ccts = $wpdb->get_results($query);
     
