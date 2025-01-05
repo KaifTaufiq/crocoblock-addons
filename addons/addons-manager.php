@@ -59,6 +59,7 @@ if (! class_exists('AddonManager')) {
             $deactivated = array_diff($current, $new);
             $reload_addons = [
                 'advanced-rest-api',
+                'conditional-formatting'
             ];
 
             foreach ($reload_addons as $addon) {
@@ -87,6 +88,7 @@ if (! class_exists('AddonManager')) {
                 'MegaMenuBuilder' => $path . 'mega-menu-builder/mega-menu-builder.php',
                 'CallBack_TextFormatting' => $path . 'callback-text-formatting/callback-text-formatting.php',
                 'CallBack_CCT_Data_with_ID' => $path . 'callback-cct-data-by-id/callback-cct-data-by-id.php',
+                'ConditionalFormatting' => $path . 'conditional-formatting/conditional-formatting.php',
             ));
 
             // Load the Base Classes
