@@ -86,6 +86,7 @@ if (! class_exists('AddonManager')) {
                 'SubQuery' => $path . 'sub-query/sub-query.php',
                 'MegaMenuBuilder' => $path . 'mega-menu-builder/mega-menu-builder.php',
                 'CallBack_TextFormatting' => $path . 'callback-text-formatting/callback-text-formatting.php',
+                'CallBack_CCT_Data_with_ID' => $path . 'callback-cct-data-by-id/callback-cct-data-by-id.php',
             ));
 
             // Load the Base Classes
