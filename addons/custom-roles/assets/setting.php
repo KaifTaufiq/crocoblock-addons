@@ -21,7 +21,9 @@
                         <div class="cx-vui-repeater-item__heading-start" @click="setEdit( item.id )">
                             <?php require crocoblock_addon()->addons->addons_path('custom-roles/assets/icon/dropdown.svg') ?>
                             <div class="cx-vui-repeater-item__title">{{ item.name }}</div>
-                            <!-- <div class="cx-vui-repeater-item__subtitle">{{ item.url }}</div> --> <!-- SubTitle not Decided Yet -->
+                            <div class="cx-vui-repeater-item__subtitle">
+                                {{ !item.slug ? 'Role Not Created' : (item.name.toLowerCase().replace(/\s+/g, '_') !== item.slug ? item.slug + ' (the slug of role cannot change)' : item.slug) }}
+                            </div>
                         </div>
                         <div class="cx-vui-repeater-item__heading-end">
                             <div class="cx-vui-repeater-item__clean" @click="deleteID = item.id">

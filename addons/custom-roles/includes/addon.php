@@ -38,7 +38,6 @@ class Addon extends ActiveAddon
     {
         require_once $this->addon_includes_path('settings.php');
         $this->settings = new Settings();
-        // }
     }
     
     public function update_single_item($item_id, $item) {
@@ -65,7 +64,7 @@ class Addon extends ActiveAddon
         } else {
             $settings[$item_id] = [
                 'name' => $name,
-                'from' => $item['from'],
+                'from' => '',
             ];
             if ($item['name'] === '') {
                 $message = 'Item Created';
@@ -77,19 +76,9 @@ class Addon extends ActiveAddon
         return $message;
     }
 
-    public function get_listings($id = null) {
+    public function get_listings() {
 
         $settings = $this->get_setting();
-        if ($id) {
-            if( empty($settings[$id]) ) {
-                return [];
-            }
-            return [
-                'id' => $id,
-                'name' => $settings[$id]['name'],
-                'from' => $settings[$id]['from'],
-            ];
-        }
         $listings = [];
         foreach( $settings as $key => $value ) {
             if( !empty($value)) {
@@ -97,6 +86,7 @@ class Addon extends ActiveAddon
                     'id'=> $key,
                     'name'=> $value['name'],
                     'from'=> $value['from'],
+                    'slug'=> $value['slug'],
                 ];
             }
         }
@@ -108,6 +98,13 @@ class Addon extends ActiveAddon
         global $wp_roles;
         $roles = $wp_roles->roles;
         do_action('qm/info', $roles);
+        $settings = $this->get_setting();
+        $custom_role_slugs = [];
+        foreach( $settings as $key => $value ) {
+            if( !empty($value) && isset($value['slug']) ) {
+                $custom_role_slugs[] = $value['slug'];
+            }
+        }
         $return_roles = [
             [
                 'value' => '',
@@ -115,6 +112,9 @@ class Addon extends ActiveAddon
             ],
         ];
         foreach( $roles as $slug => $role_details ) {
+            if( in_array($slug, $custom_role_slugs) ) {
+                continue;
+            }
             $return_roles[] = [
                 'value' => $slug,
                 'label' => $role_details['name'],
