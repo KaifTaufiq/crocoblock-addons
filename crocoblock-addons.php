@@ -119,12 +119,50 @@ if (! class_exists('CrocoblockAddons')) {
 		 */
 		public function activation()
 		{
-			
 			$single_rest_api = get_option('cba-single-rest-api');
     		$addon_features = get_option('crocoblock_addon_features');
-			if( $single_rest_api != '' || $addon_features != '') {
+			if (!empty($single_rest_api) || !empty($addon_features)) {
 				update_option('cba-migration', '1');
 			}
+			$new_active_addons = [];
+			$new_advanced_rest_api = [];
+			if ( $single_rest_api ) {
+				foreach ( $single_rest_api as $id => $value) {
+					if( $value['status'] == "on" ) {
+						$query_parameter = [
+							[
+								'key' => 'replace',
+								'from' => 'query_var',
+								'query_var' => 'id',
+								'shortcode' => '',
+								'debugShortcode' => false,
+							]
+						];
+						if( $value['custom_key'] != "" ){
+							$query_parameter[0]['query_var'] = $value['custom_key'];
+						}
+						$new_advanced_rest_api[$id] = [
+							'isSingle' => "true",
+							'query_parameters' => $query_parameter
+						];
+					}
+				}
+				update_option('cba-advanced-rest-api', $new_advanced_rest_api);
+			}
+			if( $addon_features ) {
+				foreach ( $addon_features as $name => $status) {
+					if($status === "on") {
+						if($name === "single-rest-api") {
+							$new_active_addons[] = "advanced-rest-api";
+						} else {
+							$new_active_addons[] = $name;
+						}
+					}
+				}
+				update_option("crocoblock_addons_active_addon", $new_active_addons);
+			}
+			delete_option('cba-single-rest-api');
+			delete_option('crocoblock_addon_features');
 		}
 
 		/**
@@ -145,10 +183,8 @@ if (! class_exists('CrocoblockAddons')) {
 		public function init()
 		{
 			$this->dashboard = new Dashboard();
-			if( get_option('cba-migration') != "1") {
-				$this->addons = new AddonManager();
-				do_action('crocoblock-addons/init', $this);
-			}
+			$this->addons = new AddonManager();
+			do_action('crocoblock-addons/init', $this);
 		}
 
 		public function plugin_path($path = null)

@@ -8,6 +8,7 @@ class Migration{
     public function __construct(){
         add_action('jet-engine/dashboard/assets', [$this, 'settings_migration']);
         add_action('wp_ajax_crocoblock_addons_migration', [$this, 'start_migration']);
+        add_action('admin_menu', [$this,'register_page']);
     }
 
     public function start_migration(){
@@ -20,47 +21,6 @@ class Migration{
 		if ( ! $nonce || ! wp_verify_nonce( $nonce, $this->nonce_key ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce validation failed', 'jet-engine' ) ) );
 		}
-        $single_rest_api = get_option('cba-single-rest-api');
-    	$addon_features = get_option('crocoblock_addon_features');
-
-        $new_active_addons = [];
-        $new_advanced_rest_api = [];
-
-        if ( $single_rest_api ) {
-            foreach ( $single_rest_api as $id => $value) {
-                if( $value['status'] == "on" ) {
-                    $query_parameter = [
-                        [
-                            'key' => 'replace',
-                            'from' => 'query_var',
-                            'query_var' => 'id',
-                            'shortcode' => '',
-                            'debugShortcode' => false,
-                        ]
-                    ];
-                    if( $value['custom_key'] != "" ){
-                        $query_parameter[0]['query_var'] = $value['custom_key'];
-                    }
-                    $new_advanced_rest_api[$id] = [
-                        'isSingle' => "true",
-                        'query_parameters' => $query_parameter
-                    ];
-                }
-            }
-            update_option('cba-advanced-rest-api', $new_advanced_rest_api);
-        }
-        if( $addon_features ) {
-            foreach ( $addon_features as $name => $status) {
-                if($status === "on") {
-                    if($name === "single-rest-api") {
-                        $new_active_addons[] = "advanced-rest-api";
-                    } else {
-                        $new_active_addons[] = $name;
-                    }
-                }
-            }
-            update_option("crocoblock_addons_active_addon", $new_active_addons);
-        }
         delete_option('cba-migration');
         delete_option('cba-single-rest-api');
         delete_option('crocoblock_addon_features');
@@ -89,6 +49,116 @@ class Migration{
         );
 
         add_action('admin_footer', [$this, 'print_migration_templates']);
+    }
+
+    public function register_page(){
+        add_menu_page(
+            'Crocoblock Addons',            // Page title
+            'Crocoblock Addons',            // Menu title
+            'manage_options',               // Capability
+            'crocoblock-addons',            // Menu slug
+            [$this,'crocoblock_addons_page_html'],  // Callback function
+            'dashicons-admin-generic',      // Icon
+            59.1                              // Position
+        );
+    }
+
+    public function crocoblock_addons_page_html()
+    {
+        ?>
+        <div class="dashboard">
+            <h1 class="header-title">Crocoblock Addons Dashboard</h1>
+            <div id="content-container">
+                <div id="modules" class="content visible">
+                    <h1>Migration Needed</h1>
+                    <p class="paragraph">We have detected that you have used Crocoblock Addons before. We need to migrate your data to the new version. Please click the button below to start the migration process.</p>
+                    <h4 class="paragraph">From Now on You can Access Crcoblock Addon Dashbaord within Jet Engine Dashbaord.</h4>
+                    <p class="paragraph">Single Rest API is now Advannced Rest API.</p>
+                    <p class="paragraph">Wordpress Dashaboard > Jet Engine > Jet Engine > Crocblock Addons <a href="<?php echo esc_url( admin_url( 'admin.php?page=jet-engine#crocoblock_addons' ) ); ?>">Link Here</a></p>
+                    <form method="post" action="">
+                        <p class="submit"><button type="button" id="modules_form_submit" class="button button-primary">Update Database</button></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            jQuery(document).ready(function ($) {
+                $('#modules_form_submit').on('click', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: window.ajaxurl,
+                        method: 'POST',
+                        data: {
+                            action: 'crocoblock_addons_migration',
+                            nonce: '<?php echo esc_js(wp_create_nonce($this->nonce_key)); ?>',
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                var domain = window.location.origin;
+                                var redirectUrl = domain + '/wp-admin/admin.php?page=jet-engine#crocoblock_addons';
+                                window.location.href = redirectUrl;
+                            } else {
+                                alert('Failed to update features: ' + response.data);
+                            }
+                        },
+                        error: function () {
+                            alert('AJAX request failed.');
+                        }
+                    });
+                });
+            });
+        </script>
+        <style>
+        .dashboard {
+            margin: 10px 20px 0 2px;
+            border-radius: 6px;
+            box-shadow: 0px 2px 6px rgba(35, 40, 45, 0.07);
+            /* display: inline-block; */
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 37px;
+            padding: 0 0 20px;
+            margin: 0;
+            color: #232820;
+        }
+        p.submit {
+            margin-top: 0px;
+            padding: 0px;
+            box-shadow: none;
+            color: white;
+            line-height: 19px;
+            font-size: 13px;
+            display: inline-block;
+            background-color: #066EA2;
+            font-weight: 500;
+            box-shadow: 0px 4px 4px rgba(35, 40, 45, 0.24);
+            border-radius: 4px;
+        }
+
+        .feature-title {
+            color: #007CBA;
+            margin: 0 10px 0 0;
+            font-size: 15px;
+            line-height: 17px;
+            font-weight: 500;
+        }
+
+        .content {
+            border-left: 1px solid #DCDCDD;
+            background-color: white;
+            padding: 30px;
+            margin-left: -1px;
+        }
+
+        .paragraph {
+            margin-bottom: 10px;
+            margin-top: 0px;
+        }
+        </style>
+        <?php
     }
 
     public function print_migration_templates() {
