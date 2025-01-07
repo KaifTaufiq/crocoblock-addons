@@ -1,4 +1,7 @@
 === Crocoblock Addons ===
+Requires at least: 5.0
+Tested up to: 6.7.1
+Stable tag: 1.0.1
 
 == Description ==
 Crocoblock Addons is a powerful plugin that enhances your WordPress site with additional features and functionalities. This plugin is designed to work seamlessly with Crocoblock Jet Plugins.
@@ -13,7 +16,7 @@ Crocoblock Addons is a powerful plugin that enhances your WordPress site with ad
 * Release Date: Dec 14, 2024
 * Released new version with minor bug fixes in fetching query variable for single rest api.
 
-= 1.0 =
+= 1.0.0 =
 * Release Date: Oct 26, 2024
 * Two Addons Released Single Rest API, Single Listing
 * Initial release.
