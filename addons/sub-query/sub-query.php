@@ -34,6 +34,11 @@ if (! class_exists('AdvancedRestAPI')) {
             add_action('crocoblock-addons/init', array($this,'create_instance'));
         }
 
+        public function addon_type()
+        {
+            return 'module';
+        }
+
         public function create_instance($crocoblock_addon){
             require $crocoblock_addon->addons->addons_path( 'sub-query/includes/addon.php' );
             $this->instance = \CrocoblockAddons\Addons\SubQuery\Addon::instance();

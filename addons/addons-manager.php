@@ -112,11 +112,14 @@ if (! class_exists('AddonManager')) {
          */
         public function get_all_addons_for_js($extra_data = false, $type = false)
         {
-
-            FIXME: // Check if this is needed
             $result = array();
 
             foreach ($this->addons as $addon) {
+
+                if ($type && $type !== $addon->addon_type()) {
+                    continue;
+                }
+
                 $addon_data = [
                     'value' => $addon->addon_id(),
                     'label' => $addon->addon_name(),
@@ -130,11 +133,6 @@ if (! class_exists('AddonManager')) {
                     $addon_data['details'] = $addon->get_addon_details();
                     $addon_data['links']   = $this->get_addon_links($addon);
                 }
-                TODO: // External Addons Setiup
-                // if ( $type && 'external' === $type ) {
-                // 	$module_data['is_related_plugin_active'] = $module->is_related_plugin_active();
-                // 	$module_data['plugin_data']              = $module->get_related_plugin_data();
-                // }
 
                 $result[] = $addon_data;
             }

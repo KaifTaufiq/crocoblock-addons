@@ -40,6 +40,12 @@ class Addon extends ActiveAddon
      */
     public function init()
     {
+        if ( !function_exists('jet_engine' )) {
+            return;
+        }
+        if ( !jet_engine()->modules->is_module_active('rest-api-listings') ) {
+            return;
+        }
         require_once $this->addon_includes_path('settings.php');
         require_once $this->addon_includes_path('manager.php');
         $this->settings = new Settings();

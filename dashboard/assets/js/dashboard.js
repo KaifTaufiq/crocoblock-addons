@@ -4,7 +4,9 @@
     template: "#crocoblock-addons-settings",
     data: function () {
       return {
-        internalModules: AddonSettings.addons,
+        addons: AddonSettings.addons,
+        modules: AddonSettings.modules,
+        callbacks: AddonSettings.callbacks,
         activeModules: AddonSettings.active_addons,
         moduleDetails: false,
         saving: false,

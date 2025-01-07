@@ -38,6 +38,9 @@ class Addon extends ActiveAddon
      */
     public function init()
     {
+        if ( !function_exists('jet_engine' )) {
+            return;
+        }
         require_once $this->addon_includes_path('callback_function.php');
         add_filter('jet-engine/listings/allowed-callbacks', [$this,'add_custom_dynamic_field_callbacks']);
         add_filter('jet-engine/listing/dynamic-field/callback-args', [$this,'add_custom_dynamic_field_callbacks_args'], 10, 3);

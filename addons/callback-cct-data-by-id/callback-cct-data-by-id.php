@@ -34,6 +34,11 @@ if (! class_exists('CallBack_CCT_Data_with_ID')) {
             add_action('crocoblock-addons/init', array($this,'create_instance'));
         }
 
+        public function addon_type()
+        {
+            return 'callback';
+        }
+
         public function create_instance($crocoblock_addon){
             require $crocoblock_addon->addons->addons_path( 'callback-cct-data-by-id/includes/addon.php' );
             $this->instance = \CrocoblockAddons\Addons\CallBack_CCT_Data_with_ID\Addon::instance();

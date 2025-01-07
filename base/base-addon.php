@@ -37,6 +37,14 @@ if (! class_exists('Addon')) {
          */
         abstract public function addon_init();
 
+        
+        /**
+         * Addons Type
+         *
+         * @return string
+         */
+        abstract public function addon_type();
+
         /**
          * Returns detailed information about current addon for the dashboard page
          * @return [type] [description]

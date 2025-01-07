@@ -40,6 +40,9 @@ class Addon extends ActiveAddon
      */
     public function init()
     {
+        if ( !function_exists('jet_engine' )) {
+            return;
+        }
         require $this->addon_includes_path('settings.php');
         $this->settings = new Settings();
         require_once $this->addon_includes_path('callback_function.php');

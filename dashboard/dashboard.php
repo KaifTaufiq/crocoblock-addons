@@ -58,7 +58,9 @@ if (!class_exists('Dashboard')) {
                 'crocoblock-addons-settings',
                 'CrocoClockAddonsSettings',
                 [
-                    'addons' => crocoblock_addon()->addons->get_all_addons_for_js(true),
+                    'addons' => crocoblock_addon()->addons->get_all_addons_for_js(true, 'addon'),
+                    'modules' => crocoblock_addon()->addons->get_all_addons_for_js(true, 'module'),
+                    'callbacks' => crocoblock_addon()->addons->get_all_addons_for_js(true, 'callback'),
                     'active_addons' => crocoblock_addon()->addons->get_active_addons(),
                     '_nonce' => wp_create_nonce($this->nonce_action),
                     'messages'          => array(

@@ -38,6 +38,11 @@ if (! class_exists('MegaMenuBuilder')) {
             add_action('crocoblock-addons/init', array($this,'create_instance'));
         }
 
+        public function addon_type()
+        {
+            return 'addon';
+        }
+
         public function create_instance($crocoblock_addon)
         {
             require $crocoblock_addon->addons->addons_path( 'mega-menu-builder/includes/addon.php' );

@@ -15,6 +15,9 @@ class Addon extends ActiveAddon
      */
     public function __construct()
     {
+        if ( !function_exists('jet_engine' )) {
+            return;
+        }
         require_once $this->addon_includes_path('manager.php');    
         $this->manager = new Manager();
         

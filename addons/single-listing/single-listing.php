@@ -34,6 +34,11 @@ if (! class_exists('SingleListing')) {
             add_action('crocoblock-addons/init', array($this,'create_instance'));
         }
 
+        public function addon_type()
+        {
+            return 'addon';
+        }
+
         public function create_instance($crocoblock_addon){
             require $crocoblock_addon->addons->addons_path( 'single-listing/includes/addon.php' );
             $this->instance = \CrocoblockAddons\Addons\SingleListing\Addon::instance();

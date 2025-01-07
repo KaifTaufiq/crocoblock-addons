@@ -38,6 +38,9 @@ class Addon extends ActiveAddon
      */
     public function init()
     {
+        if ( !function_exists('jet_engine' )) {
+            return;
+        }
         if ( !jet_engine()->modules->is_module_active('custom-content-types') ) {
             return;
         }

@@ -34,6 +34,11 @@ if (! class_exists('CustomRoles')) {
             add_action('crocoblock-addons/init', array($this,'create_instance'));
         }
 
+        public function addon_type()
+        {
+            return 'module';
+        }
+
         public function create_instance($crocoblock_addon){
             require $crocoblock_addon->addons->addons_path( 'custom-roles/includes/addon.php' );
             $this->instance = \CrocoblockAddons\Addons\CustomRoles\Addon::instance();

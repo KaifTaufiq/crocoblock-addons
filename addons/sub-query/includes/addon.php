@@ -24,6 +24,9 @@ class Addon extends ActiveAddon
 
     public function init()
     {
+        if ( !function_exists('jet_engine' )) {
+            return;
+        }
         add_action( 'jet-engine/query-builder/query-editor/register', [ $this, 'register_editor_component' ] );
 		add_action( 'jet-engine/query-builder/queries/register', [ $this, 'register_query' ] );
     }
