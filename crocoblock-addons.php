@@ -110,20 +110,24 @@ if (! class_exists('CrocoblockAddons')) {
 			// Plugin activation and deactivation hook.
 			register_activation_hook(__FILE__, [$this, 'activation']);
 			register_deactivation_hook(__FILE__, [$this, 'deactivation']);
+
+			// Hook activation logic to plugins_loaded for updates or migrations
+			add_action('plugins_loaded', [$this, 'handle_migrations']);
 		}
 
-		/**
-		 * Plugin activation hook.
-		 *
-		 * @return void
-		 */
-		public function activation()
+		public function handle_migrations()
 		{
-			$single_rest_api = get_option('cba-single-rest-api');
-    		$addon_features = get_option('crocoblock_addon_features');
-			if (!empty($single_rest_api) || !empty($addon_features)) {
-				update_option('cba-migration', '1');
+			$migration_status = get_option('cba-migration', '0');
+			if ($migration_status === '1') {
+				$this->run_migrations();
+				delete_option('cba-migration'); // Clean up after migrations
 			}
+		}
+
+		private function run_migrations()
+		{
+			$single_rest_api = get_option('cba-single-rest-api', []);
+    		$addon_features = get_option('crocoblock_addon_features', []);
 			$new_active_addons = [];
 			$new_advanced_rest_api = [];
 			if ( $single_rest_api ) {
@@ -163,6 +167,22 @@ if (! class_exists('CrocoblockAddons')) {
 			}
 			delete_option('cba-single-rest-api');
 			delete_option('crocoblock_addon_features');
+		}
+
+		/**
+		 * Plugin activation hook.
+		 *
+		 * @return void
+		 */
+		public function activation()
+		{
+			$single_rest_api = get_option('cba-single-rest-api', []);
+			$addon_features = get_option('crocoblock_addon_features', []);
+
+			// Mark migration as needed
+			if (!empty($single_rest_api) || !empty($addon_features)) {
+				update_option('cba-migration', '1');
+			}
 		}
 
 		/**
