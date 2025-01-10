@@ -147,7 +147,12 @@ if (! class_exists('CrocoblockAddons')) {
 
 		public function plugin_action_links($links)
 		{
-			$settings_link = '<a href="' . admin_url('admin.php?page=jet-engine#crocoblock_addons') . '">Settings</a>';
+			$settings_link = '';
+			if( function_exists('jet_engine') ) {
+				$settings_link = '<a href="' . admin_url('admin.php?page=jet-engine#crocoblock_addons') . '">Settings</a>';
+			} else {
+				$settings_link = '<span style="color: red;">Jet Engine Not Active</span>';
+			}
 			array_unshift($links, $settings_link);
 			return $links;
 		}
