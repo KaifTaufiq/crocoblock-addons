@@ -106,7 +106,9 @@ if (! class_exists('CrocoblockAddons')) {
 			require $this->plugin_path('addons/addons-manager.php');
 
 			add_action('jet-engine/init', array($this, 'init'));
-			add_filter(`plugin_action_links_{$this->plugin_name}`, [$this, 'plugin_action_links']);
+			add_action('init', function(){
+				add_filter(`plugin_action_links_{$this->plugin_name}`, [$this, 'plugin_action_links']);
+			}, -999);
 
 			// Plugin activation and deactivation hook.
 			register_activation_hook(__FILE__, [$this, 'activation']);
