@@ -106,9 +106,7 @@ if (! class_exists('CrocoblockAddons')) {
 			require $this->plugin_path('addons/addons-manager.php');
 
 			add_action('jet-engine/init', array($this, 'init'));
-			add_action('init', function(){
-				add_filter(`plugin_action_links_{$this->plugin_name}`, [$this, 'plugin_action_links']);
-			}, -999);
+			add_filter("plugin_action_links_{$this->plugin_name}", [$this, 'plugin_action_links']);
 
 			// Plugin activation and deactivation hook.
 			register_activation_hook(__FILE__, [$this, 'activation']);
@@ -149,7 +147,8 @@ if (! class_exists('CrocoblockAddons')) {
 
 		public function plugin_action_links($links)
 		{
-			$links[] = '<a href="' . admin_url('admin.php?page=jet-engine#crocoblock_addons') . '">' . __('Settings', 'crocoblock-addons') . '</a>';
+			$settings_link = '<a href="' . admin_url('admin.php?page=jet-engine#crocoblock_addons') . '">Settings</a>';
+			array_unshift($links, $settings_link);
 			return $links;
 		}
 
