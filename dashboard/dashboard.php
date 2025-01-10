@@ -13,9 +13,10 @@ if (!class_exists('Dashboard')) {
 
         public function __construct()
         {
+            
             add_action('jet-engine/dashboard/tabs/after-skins', [$this, 'settings_tab']);
-            $migration_check = get_option('cba-migration');
-            if ( $migration_check == "1"){
+            $option_version = get_option('cba-version', '');
+            if( (empty($option_version)) || ( $option_version == '1.0.1') ) {
                 require crocoblock_addon()->plugin_path('dashboard/migration.php');
                 new Migration();
             } else {

@@ -6,9 +6,68 @@ class Migration{
     public $nonce_key = 'crocoblock-addons-migration';
 
     public function __construct(){
-        add_action('jet-engine/dashboard/assets', [$this, 'settings_migration']);
-        add_action('wp_ajax_crocoblock_addons_migration', [$this, 'start_migration']);
-        add_action('admin_menu', [$this,'register_page']);
+        $option_version = get_option('cba-version', '');
+        if( (empty($option_version)) ) {
+            $this->run_once_migration();
+        } elseif( $option_version == '1.0.1') {
+            add_action('jet-engine/dashboard/assets', [$this, 'settings_migration']);
+            add_action('wp_ajax_crocoblock_addons_migration', [$this, 'start_migration']);
+            add_action('admin_menu', [$this,'register_page']);
+        }
+    }
+
+    public function run_once_migration() {
+        $single_rest_api = get_option('cba-single-rest-api', []);
+        $addon_features = get_option('crocoblock_addon_features', []);
+        
+        // Perform migrations
+        $this->migrate_advanced_rest_api($single_rest_api);
+        $this->migrate_addon_features($addon_features);
+
+        // Update version and clean up options
+        update_option('cba-version', '1.0.1');
+        delete_option('cba-single-rest-api');
+        delete_option('crocoblock_addon_features');
+    }
+
+    private function migrate_advanced_rest_api($single_rest_api) {
+        if(!$single_rest_api) {
+            return;
+        }
+
+        $new_advanced_rest_api = [];
+        foreach ($single_rest_api as $id => $value) {
+            if ($value['status'] === "on") {
+                $query_parameter = [
+                    [
+                        'key' => 'replace',
+                        'from' => 'query_var',
+                        'query_var' => $value['custom_key'] ?: 'id',
+                        'shortcode' => '',
+                        'debugShortcode' => false,
+                    ]
+                ];
+                $new_advanced_rest_api[$id] = [
+                    'isSingle' => "true",
+                    'query_parameters' => $query_parameter,
+                ];
+            }
+        }
+
+        update_option('cba-advanced-rest-api', $new_advanced_rest_api);
+    }
+
+    private function migrate_addon_features($addon_features) {
+        if(!$addon_features) {
+            return;
+        }
+        $new_active_addons = [];
+        foreach ($addon_features as $name => $status) {
+            if ($status === "on") {
+                $new_active_addons[] = ($name === "single-rest-api") ? "advanced-rest-api" : $name;
+            }
+        }
+        update_option("crocoblock_addons_active_addon", $new_active_addons);
     }
 
     public function start_migration(){
@@ -21,9 +80,8 @@ class Migration{
 		if ( ! $nonce || ! wp_verify_nonce( $nonce, $this->nonce_key ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce validation failed', 'jet-engine' ) ) );
 		}
-        delete_option('cba-migration');
-        delete_option('cba-single-rest-api');
-        delete_option('crocoblock_addon_features');
+
+        update_option('cba-version', '1.1');
         wp_send_json_success('Migration Completed');
     }
 
@@ -32,7 +90,7 @@ class Migration{
             'crocoblock-addons-migration',
             crocoblock_addon()->plugin_url( 'dashboard/assets/js/migration.js' ),
             ['cx-vue-ui'],
-            '1.1212.1',
+            crocoblock_addon()->get_version(),
             true
         );
 
