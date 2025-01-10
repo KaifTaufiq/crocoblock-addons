@@ -35,7 +35,7 @@ if (!class_exists('Dashboard')) {
             <cx-vui-tabs-panel name="crocoblock_addons" label="<?php _e('Crocblock Addons', 'crocoblock-addons'); ?>"
                 key="crocoblock_addons">
                 <keep-alive>
-                <?php if (get_option('cba-migration') == "1") : ?>
+                <?php if (get_option('cba-version') == '1.0.1') : ?>
                     <crocoblock-addons-migration></crocoblock-addons-migration>
                 <?php else : ?>
                     <crocoblock-addons-settings></crocoblock-addons-settings>
