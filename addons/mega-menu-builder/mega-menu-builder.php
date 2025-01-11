@@ -54,5 +54,9 @@ if (! class_exists('MegaMenuBuilder')) {
             return '<div class="jet-engine-links__title">Mega Menu Builder</div>
             <p>After activation, Mega Menu Builder Widget will be added to Elementor or Bricks Widget.</p>';
         }
+        public function get_video_embed()
+        {
+            return 'https://www.youtube.com/embed/jpyAcCwz6lY';
+        }
     }
 }    

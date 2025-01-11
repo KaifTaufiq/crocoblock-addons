@@ -52,17 +52,6 @@
                         v-html="'<?php _e( '+ New Role', 'crocoblock-addons' ); ?>'"
                     ></span>
                 </cx-vui-button>
-                <cx-vui-button
-                    button-style="link-accent"
-                    size="mini"
-                    :disabled="isBusy"
-                    @click="newCustomRole( $event, true )"
-                >
-                    <span
-                        slot="label"
-                        v-html="'<?php _e( 'Add Sample Role', 'crocoblock-addons' ); ?>'"
-                    ></span>
-                </cx-vui-button>
             </div>
         </div>
     </div>
