@@ -55,6 +55,15 @@ if (! class_exists('Addon')) {
         }
 
         /**
+         * Returns Credit for the addon
+         * @return [type] [description]
+         */
+        public function addon_from()
+        {
+            return '';
+        }
+
+        /**
          * Return video embed to showcase addon in the admin area
          */
         public function get_video_embed()

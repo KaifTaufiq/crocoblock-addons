@@ -25,6 +25,11 @@ if (! class_exists('AdvancedRestAPI')) {
         {
             return 'sub-query';
         }
+
+        public function addon_from()
+        {
+            return 'Crocoblock Dev Tools';
+        }
         public function addon_name()
         {
             return __('Sub Query', 'crocoblock-addons');

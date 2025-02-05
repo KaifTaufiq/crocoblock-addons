@@ -123,6 +123,7 @@ if (! class_exists('AddonManager')) {
                 $addon_data = [
                     'value' => $addon->addon_id(),
                     'label' => $addon->addon_name(),
+                    'from' => $addon->addon_from(),
                     'embed' => $addon->get_video_embed(),
                     'isElementor' => $addon->support_elementor(),
                     'isBricks' => $addon->support_bricks(),

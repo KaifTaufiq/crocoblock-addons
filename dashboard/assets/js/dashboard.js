@@ -39,10 +39,17 @@
               self.result = "success";
 
               if (!response.data.reload) {
-                self.successMessage = AddonSettings.messages.saved;
+                self.$CXNotice.add({
+                  message: AddonSettings.messages.saved,
+                  type: "success",
+                  duration: 7000,
+                });
               } else {
-                self.successMessage = AddonSettings.messages.saved_and_reload;
-
+                self.$CXNotice.add({
+                  message: AddonSettings.messages.saved_and_reload,
+                  type: "success",
+                  duration: 3900,
+                });
                 setTimeout(function () {
                   window.location.reload();
                 }, 4000);
@@ -55,7 +62,6 @@
                 self.errorMessage += " " + response.data.message;
               }
             }
-            self.hideNotice();
           })
           .fail(function (e, textStatus) {});
       },
@@ -66,13 +72,6 @@
         } else {
           this.activeModules.push(module.value);
         }
-      },
-      hideNotice: function () {
-        var self = this;
-        setTimeout(function () {
-          self.result = false;
-          self.errorMessage = "";
-        }, 8000);
       },
     },
   });

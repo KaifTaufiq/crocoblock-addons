@@ -12,8 +12,13 @@
                     <div class="cx-vui-repeater-item__heading cx-vui-repeater-item__heading--is-collpased">
                         <div class="cx-vui-repeater-item__heading-start">
                             <cx-vui-switcher :prevent-wrap="true" :value="isActive( module.value )" @input="switchActive( $event, module )"></cx-vui-switcher>
-                            <div class="cx-vui-repeater-item__title je-module-heading" @click="switchActive( $event, module )">
-                                {{ module.label }}
+                            <div>
+                                <div class="cx-vui-repeater-item__title je-module-heading" @click="switchActive( $event, module )">
+                                    {{ module.label }}
+                                </div>
+                                <div class="cx-vui-component__desc" v-if="module.from" @click="switchActive( $event, module )">
+                                    {{ module.from }}
+                                </div>
                             </div>
                         </div>
                         <div class="cx-vui-repeater-item__heading-end">
@@ -72,14 +77,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="jet-enigne-modules-save">
-                <cx-vui-button button-style="accent" size="mini" :loading="saving" @click="saveModules">
-                    <span slot="label" v-html="'<?php _e('Save', 'jet-engine'); ?>'"></span>
-                </cx-vui-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="cx-vui-inline-notice cx-vui-inline-notice--success" v-if="'success' === result" v-html="successMessage"></span>
-                <span class="cx-vui-inline-notice cx-vui-inline-notice--error" v-if="'error' === result" v-html="errorMessage"></span>
             </div>
         </div>
     </div>
@@ -153,14 +150,6 @@
                     </div>
                 </div>
             </div>
-            <div class="jet-enigne-modules-save">
-                <cx-vui-button button-style="accent" size="mini" :loading="saving" @click="saveModules">
-                    <span slot="label" v-html="'<?php _e('Save', 'jet-engine'); ?>'"></span>
-                </cx-vui-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="cx-vui-inline-notice cx-vui-inline-notice--success" v-if="'success' === result" v-html="successMessage"></span>
-                <span class="cx-vui-inline-notice cx-vui-inline-notice--error" v-if="'error' === result" v-html="errorMessage"></span>
-            </div>
         </div>
     </div>
 </cx-vui-component-wrapper>
@@ -233,15 +222,10 @@
                     </div>
                 </div>
             </div>
-            <div class="jet-enigne-modules-save">
-                <cx-vui-button button-style="accent" size="mini" :loading="saving" @click="saveModules">
-                    <span slot="label" v-html="'<?php _e('Save', 'jet-engine'); ?>'"></span>
-                </cx-vui-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="cx-vui-inline-notice cx-vui-inline-notice--success" v-if="'success' === result" v-html="successMessage"></span>
-                <span class="cx-vui-inline-notice cx-vui-inline-notice--error" v-if="'error' === result" v-html="errorMessage"></span>
-            </div>
         </div>
     </div>
 </cx-vui-component-wrapper>
+<cx-vui-button button-style="accent" :loading="saving" @click="saveModules">
+    <span slot="label" v-html="'<?php _e('Save Setting', 'jet-engine'); ?>'"></span>
+</cx-vui-button>
 </div>
