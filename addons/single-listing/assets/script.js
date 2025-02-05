@@ -67,8 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }
       });
-    } else {
-      console.warn("Close button not found.");
     }
   }
 
@@ -102,6 +100,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize the observers
   prepareObserver(SingleListing, setupCloseButton);
   prepareObserver(AllListing, function () {});
+
+  let singleID = new URLSearchParams(window.location.search).get(settings.queryVarName);
+  if (singleID) {
+    prepareSingleReload(singleID, settings, SingleListing);
+    // Find the element with the singleID data attribute and add the active class
+    let activeElement = AllListing.querySelector(`[singleid="${singleID}"]`);
+    if (activeElement && settings.activeItemClass) {
+      activeElement.classList.add(settings.activeItemClass);
+    }
+  }
 });
 
 function prepareSingleReload(singleID, settings, singleListElement) {
@@ -109,6 +117,15 @@ function prepareSingleReload(singleID, settings, singleListElement) {
     // Validate SingleID
     console.error("Invalid SingleID:", SingleID); // Log error if SingleID is invalid
     return; // Exit the function
+  }
+  if (settings.addQueryVar == 'yes') {
+    const queryVarName = settings.queryVarName;
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set(queryVarName, singleID);
+    window.history.pushState({}, '', currentUrl.toString());
+    let ajaxlistingURL = new URL(JetEngineSettings.ajaxlisting);
+    ajaxlistingURL.searchParams.set(queryVarName, singleID);
+    JetEngineSettings.ajaxlisting = ajaxlistingURL.toString();
   }
   const noActiveElement = document.getElementById(settings.no_active); // Get the no active element
   if (!singleListElement) {

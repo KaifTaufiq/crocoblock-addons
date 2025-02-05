@@ -13,9 +13,12 @@ class Manager
 
     public function HandleSingleListing($query)
     {
+        if (!isset($_POST['singleID'])) {
+            return $query;
+        }
+        $singleID = $_POST['singleID'];
         if (isset($_POST['singleID']) && $query->query_type != 'rest-api') {
             // echo "<script>console.log('" . json_encode($query) . "');</script>"; // For Debugging
-            $singleID = intval($_POST['singleID']);
             switch ($query->query_type) {
                 case 'posts':
                     $query->final_query['p'] = $singleID;
@@ -32,6 +35,7 @@ class Manager
                     $query->final_query['include'] = $singleID;
                     break;
                 case 'sql':
+                    do_action('qm/info', 'Yes, I am here');
                     if (isset($query->query['advanced_mode']) && $query->query['advanced_mode'] == 'true') {
                         $manual_query = $query->final_query['manual_query'];
                         if (str_contains($manual_query, '{replace}')) {
@@ -61,7 +65,6 @@ class Manager
                 return;
             }
             add_filter( 'jet-engine/rest-api-listings/request/url', function( $url, $instance ){
-                $singleID = intval($_POST['singleID']);
                 if(str_contains($url, '{replace}')){
                     $new_url = str_replace('{replace}', $singleID, $url);
                 }

@@ -69,6 +69,22 @@ class Single_Listing_Elementor extends \Elementor\Widget_Base {
 				'type' => \Elementor\Controls_Manager::TEXT,
 			]
 		);
+		$this->add_control(
+			'addQueryVar',
+			[
+				'label' => esc_html__( 'Add Query Var', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => esc_html__( 'Yes', 'textdomain' ),
+				'label_off' => esc_html__( 'No', 'textdomain' ),
+			]
+		);
+		$this->add_control(
+			'queryVarName',
+			[
+				'label' => esc_html__( 'Query Var Name', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+			]
+		);
 
 		$this->end_controls_section();
     }
@@ -86,6 +102,8 @@ class Single_Listing_Elementor extends \Elementor\Widget_Base {
             'no_active'      => $settings['no_active'],
             'closeBtn'       => $settings['closeBtn'],
 			'activeItemClass'    => $settings['activeItemClass'],
+			'addQueryVar'    => $settings['addQueryVar'],
+			'queryVarName'    => $settings['queryVarName'],
         );
         
 		wp_register_script(
