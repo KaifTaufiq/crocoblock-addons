@@ -83,7 +83,7 @@ class Manager
 
     public function ChangeType($type, $instance) {
         $id = $instance->get_endpoint()['id'];
-        if( isset($this->settings[$id]) && $this->settings[$id]['isPOST'] === 'true') {
+        if( isset($this->settings[$id]) && isset($this->settings[$id]['isPOST']) && $this->settings[$id]['isPOST'] === 'true') {
             $type = 'post';
         }
         return $type;
