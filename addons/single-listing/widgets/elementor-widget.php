@@ -83,6 +83,9 @@ class Single_Listing_Elementor extends \Elementor\Widget_Base {
 			[
 				'label' => esc_html__( 'Query Var Name', 'textdomain' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
+				'condition' => [
+					'addQueryVar' => 'yes',
+				],
 			]
 		);
 

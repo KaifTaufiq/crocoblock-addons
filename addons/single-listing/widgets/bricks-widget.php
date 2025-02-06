@@ -39,6 +39,19 @@ class Single_Listing_Bricks extends \Bricks\Element
             'label' => esc_html__('Active Button Class', 'bricks-basic-element'),
             'type' => 'text',
         ];
+        $this->controls['addQueryVar'] = [
+            'tab' => 'content',
+            'label' => esc_html__( 'Add Query Var', 'bricks-basic-element' ),
+            'type' => 'checkbox',
+            'inline' => true,
+            'small' => true,
+        ];
+        $this->controls['queryVarName'] = [
+            'tab' => 'content',
+            'label' => esc_html__( 'Query Var Name', 'bricks-basic-element' ),
+            'type' => 'text',
+            'required' => [ 'addQueryVar', '=', true ],
+        ];
     }
     // Enqueue element styles and scripts
     public function enqueue_scripts()
@@ -61,6 +74,8 @@ class Single_Listing_Bricks extends \Bricks\Element
             'no_active'      => $settings['no_active'],
             'closeBtn'       => $settings['closeBtn'],
             'activeItemClass'    => $settings['activeItemClass'],
+            'addQueryVar'    => $settings['addQueryVar'],
+			'queryVarName'    => $settings['queryVarName'],
         );
 
         wp_register_script(
