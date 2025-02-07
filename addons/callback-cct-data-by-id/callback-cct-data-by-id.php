@@ -27,7 +27,7 @@ if (! class_exists('CallBack_CCT_Data_with_ID')) {
         }
         public function addon_name()
         {
-            return __('CallBack CCT Data by ID', 'crocoblock-addons');
+            return __('CCT Data by ID', 'crocoblock-addons');
         }
         public function addon_init()
         {

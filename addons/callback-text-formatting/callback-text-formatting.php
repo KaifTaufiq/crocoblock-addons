@@ -27,7 +27,7 @@ if (! class_exists('CallBack_TextFormatting')) {
         }
         public function addon_name()
         {
-            return __('CallBack Text Formatting', 'crocoblock-addons');
+            return __('Text Formatting', 'crocoblock-addons');
         }
         public function addon_init()
         {
