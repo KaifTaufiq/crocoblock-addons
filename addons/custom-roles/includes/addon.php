@@ -87,9 +87,9 @@ class Addon extends ActiveAddon
             if( !empty($value)) {
                 $listings[] = [
                     'id'=> $key,
-                    'name'=> $value['name'],
-                    'from'=> $value['from'],
-                    'slug'=> $value['slug'],
+                    'name' => isset($value['name']) ? $value['name'] : '',
+                    'from' => isset($value['from']) ? $value['from'] : '',
+                    'slug'=> isset($value['slug']) ? $value['slug'] : '',
                 ];
             }
         }
