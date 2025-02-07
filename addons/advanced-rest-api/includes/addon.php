@@ -65,7 +65,7 @@ class Addon extends ActiveAddon
                     'key' => isset($param['key']) ? sanitize_text_field($param['key']) : '',
                     'from' => isset($param['from']) ? sanitize_text_field($param['from']) : '',
                     'query_var' => isset($param['query_var']) ? sanitize_text_field($param['query_var']) : '',
-                    'shortcode' => isset($param['shortcode']) ? sanitize_text_field($param['shortcode']) : '',
+                    'shortcode' => isset($param['shortcode']) ? wp_unslash(sanitize_text_field($param['shortcode'])) : '',
                     'debugShortcode' => isset($param['debugShortcode']) ? sanitize_text_field($param['debugShortcode']) : false,
                 ];
             }, $query_parameters),
