@@ -18,7 +18,7 @@ class Manager
 
     public function FormatResponseBody($body, $request_instance, $query_args, $response) {
         $id = $request_instance->get_endpoint()['id'];
-        if( isset($id) && isset($this->settings[$id]) && $this->settings[$id]['isSingle'] === 'true') {
+        if( isset($id) && isset($this->settings[$id]) && $this->settings[$id]['isSingle'] === true) {
             // Return the body as an array if isSingle is true for the endpoint
             return [$body];
         }
@@ -83,7 +83,7 @@ class Manager
 
     public function ChangeType($type, $instance) {
         $id = $instance->get_endpoint()['id'];
-        if( isset($this->settings[$id]) && isset($this->settings[$id]['isPOST']) && $this->settings[$id]['isPOST'] === 'true') {
+        if( isset($this->settings[$id]) && isset($this->settings[$id]['isPOST']) && $this->settings[$id]['isPOST'] === true) {
             $type = 'post';
         }
         return $type;

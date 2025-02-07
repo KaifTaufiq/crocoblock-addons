@@ -58,8 +58,8 @@ class Addon extends ActiveAddon
 
         $query_parameters = isset($item['query_parameters']) && is_array($item['query_parameters']) ? $item['query_parameters'] : [];
         $settings[$item_id] = [
-            'isSingle' => isset($item['isSingle']) ? sanitize_text_field($item['isSingle']) : false,
-            'isPOST' => isset($item['isPOST']) ? sanitize_text_field($item['isPOST']) : false,
+            'isSingle' => isset($item['isSingle']) ? filter_var($item['isSingle'], FILTER_VALIDATE_BOOLEAN) : false,
+            'isPOST' => isset($item['isPOST']) ? filter_var($item['isPOST'], FILTER_VALIDATE_BOOLEAN) : false,
             'query_parameters' => array_map(function($param) {
                 return [
                     'key' => isset($param['key']) ? sanitize_text_field($param['key']) : '',

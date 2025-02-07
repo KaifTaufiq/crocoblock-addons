@@ -25,6 +25,10 @@ class Settings
         $item = !empty( $_REQUEST['item'] ) ? $_REQUEST['item'] : [];
         $item_id = ! empty( $item['id'] ) ? $item['id'] : false;
 
+        // Ensure isSingle and isPOST are properly sanitized
+        $item['isSingle'] = isset($item['isSingle']) ? filter_var($item['isSingle'], FILTER_VALIDATE_BOOLEAN) : false;
+        $item['isPOST'] = isset($item['isPOST']) ? filter_var($item['isPOST'], FILTER_VALIDATE_BOOLEAN) : false;
+
         $prev_listing = $this->get_listings($item_id);
         if ( $prev_listing->args['url'] !== $item['url']) {
             $this->update_url($item_id, $prev_listing->args , $item['url']);
