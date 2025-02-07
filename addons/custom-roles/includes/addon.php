@@ -100,7 +100,6 @@ class Addon extends ActiveAddon
     {
         global $wp_roles;
         $roles = $wp_roles->roles;
-        do_action('qm/info', $roles);
         $settings = $this->get_setting();
         $custom_role_slugs = [];
         foreach( $settings as $key => $value ) {

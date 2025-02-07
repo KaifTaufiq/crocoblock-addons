@@ -35,7 +35,6 @@ class Manager
                     $query->final_query['include'] = $singleID;
                     break;
                 case 'sql':
-                    do_action('qm/info', 'Yes, I am here');
                     if (isset($query->query['advanced_mode']) && $query->query['advanced_mode'] == 'true') {
                         $manual_query = $query->final_query['manual_query'];
                         if (str_contains($manual_query, '{replace}')) {
