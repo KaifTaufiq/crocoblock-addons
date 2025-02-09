@@ -18,7 +18,7 @@ class Manager
 
     public function FormatResponseBody($body, $request_instance, $query_args, $response) {
         $id = $request_instance->get_endpoint()['id'];
-        if( isset($id) && isset($this->settings[$id]) && $this->settings[$id]['isSingle'] === true) {
+        if( isset($id) && isset($this->settings[$id]) && isset($this->settings[$id]['isSingle']) && $this->settings[$id]['isSingle'] == true ) {
             // Return the body as an array if isSingle is true for the endpoint
             return [$body];
         }
@@ -40,27 +40,21 @@ class Manager
                 $key = $param['key'];
                 $fixedKey = '{' . $key . '}';
                 if($param['from'] == 'query_var'){
-                    $query_var = isset($param['query_var']) ? $param['query_var'] : false;
+                    $query_var = $param['query_var'] ?? false;
                     if($query_var) {
-                        $value = isset($_GET[$query_var]) ? $_GET[$query_var] : '';
-                        if(!empty($value) && str_contains($new_url,$fixedKey)){
-                            $new_url = str_replace($fixedKey,$value, $new_url);
+                        $value = $_GET[$query_var] ?? false;
+                        if( $value && str_contains($new_url,$fixedKey) ){
+                            $new_url = str_replace($fixedKey, $value, $new_url);
                         }
                     }
                     continue;
                 } elseif ($param['from'] == 'shortcode') {
-                    $shortcode = isset($param['shortcode']) ? $param['shortcode'] : false;
-                    $stripped = stripslashes($shortcode);
-                    if($stripped) {
-                        $value = do_shortcode($stripped);
-                        $debug = isset($param['debugShortcode']) ? $param['debugShortcode'] : false;
+                    $shortcode = $param['shortcode'] ?? false;
+                    if($shortcode) {
+                        $value = do_shortcode($shortcode);
+                        $debug = $param['debugShortcode'] ?? false;
                         if($debug == "true") {
-                            ?>
-                            <script>
-                                console.log('Shortcode: <?php echo $stripped; ?>');
-                                console.log('Value: <?php echo $value; ?>');
-                            </script>
-                            <?php
+                            $old_url = $new_url;
                         }
                         if(!empty($value) && str_contains($new_url,$fixedKey)){
                             $new_url = str_replace($fixedKey,$value, $new_url);
@@ -68,6 +62,9 @@ class Manager
                         if($debug == "true") {
                             ?>
                             <script>
+                                console.log('From URL: <?php echo $old_url; ?>');
+                                console.log('Shortcode: <?php echo $shortcode; ?>');
+                                console.log('Value: <?php echo $value; ?>');
                                 console.log('Updated URL: <?php echo $new_url; ?>');
                             </script>
                             <?php
