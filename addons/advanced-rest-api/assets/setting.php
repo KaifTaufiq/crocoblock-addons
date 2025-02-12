@@ -35,7 +35,7 @@
                 <?php require crocoblock_addon()->addons->addons_path('advanced-rest-api/assets/icon/meta.svg') ?>
                 
             Warning: Some query variables are reserved by WordPress (e.g., 'name', 'page', 'author'). 
-            Using reserved variables may result is page not found error. Please check the documentation for a complete list.
+            Using reserved variables may cause errors. Please check the documentation for a complete list.
         
     
             </a>
