@@ -45,6 +45,7 @@ class Migration{
                         'query_var' => $value['custom_key'] ?: 'id',
                         'shortcode' => '',
                         'debugShortcode' => false,
+                        'fallback' => ''
                     ]
                 ];
                 $new_advanced_rest_api[$id] = [

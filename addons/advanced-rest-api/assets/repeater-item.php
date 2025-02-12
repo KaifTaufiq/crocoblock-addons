@@ -10,6 +10,7 @@
                     <cx-vui-input label="URL Query Variable" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-if="settings.query_parameters[ index ].from === 'query_var'" :value="settings.query_parameters[ index ].query_var" @input="setRepeaterFieldProp( 'query_parameters', index, 'query_var', $event )"></cx-vui-input>
                     <cx-vui-switcher label="Debug Shortcode" description="Print the Shortcode Result in Console Log" :wrapper-css="[ 'equalwidth' ]" v-model="settings.query_parameters[ index ].debugShortcode" :conditions="[ { input: settings.query_parameters[ index ].from, compare: 'equal', value: 'shortcode' } ]"></cx-vui-switcher>
                     <cx-vui-textarea label="Shortcode" description="Shortcode with [ ] " :wrapper-css="[ 'equalwidth' ]" size="fullwidth" v-if="settings.query_parameters[ index ].from === 'shortcode'" :value="settings.query_parameters[ index ].shortcode" @input="setRepeaterFieldProp( 'query_parameters', index, 'shortcode', $event )"></cx-vui-textarea>
+                    <cx-vui-input label="Fallback" description="A Deafult value if the fetched value is empty" :wrapper-css="[ 'equalwidth' ]" size="fullwidth" :value="settings.query_parameters[ index ].fallback" @input="setRepeaterFieldProp( 'query_parameters', index, 'fallback', $event )"></cx-vui-input>
                 </cx-vui-repeater-item>
             </cx-vui-repeater>
         </div>
